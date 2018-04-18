@@ -4,11 +4,12 @@ import java.util.*;
 import java.util.function.Supplier;
 
 
-public final class RandomValuesGenerator {
-    private static final Map<Class, Supplier<Object>> typeMatchingMap = new HashMap<>();
-    private static final Random random = new Random();
+public class RandomValuesGenerator {
+    private final Map<Class, Supplier<Object>> typeMatchingMap = new HashMap<>();
+    private final Random random = new Random();
+    private String stringPrefix = "str";
 
-    static {
+    protected void fillGeneratorsMap() {
         typeMatchingMap.put(int.class, random::nextInt);
         typeMatchingMap.put(long.class, random::nextLong);
         typeMatchingMap.put(boolean.class, random::nextBoolean);
@@ -35,20 +36,33 @@ public final class RandomValuesGenerator {
         typeMatchingMap.put(java.sql.Date.class, ()->(new java.sql.Date(System.currentTimeMillis())));
     }
 
-
-    private RandomValuesGenerator() {
+    public RandomValuesGenerator() {
+        fillGeneratorsMap();
     }
 
-    public static <T> T generateValue(Class<T> clazz, String desiredStringPrefix) {
+    public String getStringPrefix() {
+        return stringPrefix;
+    }
+
+    public RandomValuesGenerator setStringPrefix(String stringPrefix) {
+        this.stringPrefix = stringPrefix;
+        return this;
+    }
+
+    public <T> T generateValue(Class<T> clazz) {
         if (clazz == null) {
             throw new NullPointerException("Class cannot be bull to generate random value");
         }
 
         Random random = new Random();
         if (clazz.isEnum()) {
-            return clazz.getEnumConstants()[random.nextInt(clazz.getEnumConstants().length)];
+            return (T) randomEnum((Class<? extends Enum>) clazz);
         } else if (clazz == String.class) {
-            return (T) (desiredStringPrefix + String.valueOf(random.nextInt()));
+            if (stringPrefix != null && !stringPrefix.isEmpty()) {
+                return (T) (stringPrefix + String.valueOf(random.nextInt()));
+            } else {
+                return (T) String.valueOf(random.nextInt());
+            }
         }
 
         if (typeMatchingMap.get(clazz) == null) {
@@ -58,17 +72,12 @@ public final class RandomValuesGenerator {
         }
     }
 
-    public static <T> T generateValue(Class<T> clazz) {
-        return generateValue(clazz, "string");
-    }
-
-
-    public static int generateIntForRange(int lowLimit, int highLimit) {
+    public int generateIntForRange(int lowLimit, int highLimit) {
         int result = (int) (random.nextDouble() * ((double) (highLimit - lowLimit))) + lowLimit;
         return result;
     }
 
-    public static String generateRussianLetters(int size) {
+    public String generateRussianLetters(int size) {
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < size; i++) {
@@ -77,7 +86,7 @@ public final class RandomValuesGenerator {
         return result.toString();
     }
 
-    public static <E extends Enum<E>> E randomEnum(Class<E> eClass) {
+    public <E extends Enum<E>> E randomEnum(Class<E> eClass) {
         E[] enumConstants = eClass.getEnumConstants();
         return enumConstants[random.nextInt(enumConstants.length)];
     }
