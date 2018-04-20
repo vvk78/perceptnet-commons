@@ -232,7 +232,6 @@ public class BeanConverter extends BaseConversionProcessor {
                     continue;
                 }
 
-
                 referencedDto = ClassUtils.createUnsafely(destField.getFieldType());
 
                 //Attention! Recursive processing:
@@ -247,7 +246,6 @@ public class BeanConverter extends BaseConversionProcessor {
                 log.trace("Reference field {} in dest {} is set to dest {} after recursive processing", destField, getDest(), referencedDto);
             }
         }
-
     }
 
     protected void processCollections() {
@@ -279,32 +277,56 @@ public class BeanConverter extends BaseConversionProcessor {
             throw new IllegalStateException("Dto collection field " + destField + " is not initialized, cannot convert items");
         }
 
-        int index = 0;
+        int index = 0; //(this index variable is used for logging - to indicate what is child item position)
         destItems.clear();
         for (Object srcItem : srcItems) {
-            Object destItem = findProcessedDest(srcItem, destField.getCollectionItemClass());
-            if (destItem != null) {
-                destItems.add(destItem);
-                log.trace("Collection field {} in dest {} at idx {} is set to already resolved dest {3}, no recursive processing is needed",
-                        destField, getDest(), index, destItem);
-            } else {
-                destItem = ClassUtils.createUnsafely(destField.getCollectionItemClass());
+            if (!isChildItemToBeSkipped(srcItem)) {
+                Object destItem = findProcessedDest(srcItem, destField.getCollectionItemClass());
+                if (destItem != null) {
+                    destItems.add(destItem);
+                    log.trace("Collection field {} in dest {} at idx {} is set to already resolved dest {3}, no recursive processing is needed",
+                            destField, getDest(), index, destItem);
+                } else {
+                    destItem = ClassUtils.createUnsafely(destField.getCollectionItemClass());
 
-                //Attention! Recursive processing:
-                getCtx().pushNode(srcItem, destItem, destField, "(" + index + ")");
-                try {
-                    doProcess();
-                } finally {
-                    getCtx().popNode();
+                    if (isChildItemToBeRecursivelyProcessed(srcItem)) {
+                        beforeChildItemRecursiveProcessing(destField, destItem);
+
+                        //Attention! Recursive processing:
+                        getCtx().pushNode(srcItem, destItem, destField, "(" + index + ")");
+                        try {
+                            doProcess();
+                        } finally {
+                            getCtx().popNode();
+                        }
+                    }
+
+
+                    destItems.add(destItem);
+                    if (log.isTraceEnabled()) {
+                        log.trace("Collection field {} in dest {} at idx {} is set to dest {} after recursive processing",
+                                destField, getDest(), index, destItem);
+                    }
+
                 }
-
-                destItems.add(destItem);
-                log.trace("Collection field {} in dest {} at idx {} is set to dest {} after recursive processing",
-                        destField, getDest(), index, destItem);
-
             }
-            index++;
+            index++; //(this index variable is used for logging)
         }
+    }
+
+    protected boolean isChildItemToBeSkipped(Object srcItem) {
+        return false;
+    }
+
+    /**
+     * Should return true if we should do recursive processing for a child collection item and false otherwise
+     */
+    protected boolean isChildItemToBeRecursivelyProcessed(Object src) {
+        return src != null;
+    }
+
+    protected void beforeChildItemRecursiveProcessing(FieldReflection destCollectionField, Object destItem) {
+
     }
 
     private void processFlatItemsCollection(FieldReflection destField, FieldReflection srcField) {

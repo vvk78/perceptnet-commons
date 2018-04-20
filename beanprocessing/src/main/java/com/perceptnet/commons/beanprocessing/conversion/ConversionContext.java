@@ -71,7 +71,7 @@ public class ConversionContext {
         curNode = curNode.getParent();
     }
 
-    ConversionNode getCurNode() {
+    public ConversionNode getCurNode() {
         return curNode;
     }
 }

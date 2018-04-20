@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
 
     <artifactId>beanprocessing</artifactId>
@@ -15,17 +15,17 @@
         <dependency>
             <groupId>com.perceptnet.commons</groupId>
             <artifactId>utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>com.perceptnet.commons</groupId>
             <artifactId>reflection</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>com.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

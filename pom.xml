@@ -4,7 +4,7 @@
 
     <groupId>com.perceptnet.commons</groupId>
     <artifactId>perceptnet-commons</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2</version>
     <name>Perceptnet commons parent project</name>
 
     <packaging>pom</packaging>
@@ -142,5 +142,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+				<distributionManagement>
+        <repository>
+            <id>pr-internal</id>
+            <name>Paragon Internal Repository</name>
+            <url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>
+        </repository>
+    </distributionManagement>
 
 </project>
