@@ -4,7 +4,7 @@
 
     <groupId>com.perceptnet.commons</groupId>
     <artifactId>perceptnet-commons</artifactId>
-    <version>1.2</version>
+    <version>1.3.0-SNAPSHOT</version>
     <name>Perceptnet commons parent project</name>
 
     <packaging>pom</packaging>
@@ -115,6 +115,13 @@
                                     <goal>jar</goal>
                                 </goals>
                             </execution>
+                            <execution>
+                                <id>attach-sources-2</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
                         </executions>
                     </plugin>
                     <plugin>
@@ -143,12 +150,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-				<distributionManagement>
+    <distributionManagement>
         <repository>
             <id>pr-internal</id>
-            <name>Paragon Internal Repository</name>
-            <url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>
+            <!--<name>Paragon Internal Repository</name>-->
+            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>-->
         </repository>
+        <snapshotRepository>
+            <id>pr-internal-snapshots</id>
+            <!--<name>Your Snapshot Repository</name>-->
+            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>-->
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
