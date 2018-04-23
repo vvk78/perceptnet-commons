@@ -70,14 +70,6 @@ public class ResourceMessage implements Serializable {
         return new ResourceMessage(key).toString();
     }
 
-    public static String shortMessage(List<String> pathItems) {
-        return message(pathItems.stream().collect(Collectors.joining(".")) + "." + SHORT_SUFFIX);
-    }
-
-    public static String message(List<String> pathItems) {
-        return new ResourceMessage(pathItems.stream().collect(Collectors.joining("."))).toString();
-    }
-
     public static String message(String  key, Object ... args){
         if (StringUtils.isBlank(key)){
             return "";
