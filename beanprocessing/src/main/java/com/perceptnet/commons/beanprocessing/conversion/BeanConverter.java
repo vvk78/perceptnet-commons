@@ -40,7 +40,7 @@ public class BeanConverter extends BaseConversionProcessor {
         return destObj;
     }
 
-    private void doProcess() {
+    protected void doProcess() {
         if (findProcessedDest(getSource(), getDest().getClass()) != null) {
             if (log.isTraceEnabled()) {
                 log.trace("Dto {} is already processed, skipped", getDest());
@@ -62,7 +62,7 @@ public class BeanConverter extends BaseConversionProcessor {
         }
 
         processReferences();
-        processRefDtoStringDoFields();
+        processStringSrcRefDestFields();
         processCollections();
     }
 
@@ -145,7 +145,7 @@ public class BeanConverter extends BaseConversionProcessor {
         }
     }
 
-    protected void processRefDtoStringDoFields() {
+    protected void processStringSrcRefDestFields() {
         BeanReflection srcRef = getSourceReflection();
 
         for (FieldReflection destField : getDestReflection().getReferences().values()) {
@@ -216,34 +216,42 @@ public class BeanConverter extends BaseConversionProcessor {
         for (FieldReflection destField : getDestReflection().getReferences().values()) {
             FieldReflection srcField = srcRef.getReferences().get(destField.getFieldName());
             if (isFieldGenerallyConvertable(destField, srcField)) {
-                Object referencedDo = srcField.getValue(getSource());
-                if (referencedDo == null) {
+                Object referencedSrc = srcField.getValue(getSource());
+                if (referencedSrc == null) {
                     destField.setValue(getDest(), null);
                     log.trace("Reference field {} in dest {} is set to null, as corresponding reference in src {} is null",
                             destField, getDest(), getSource());
                     continue;
                 }
 
-                Object referencedDto = findProcessedDest(referencedDo, destField.getFieldType());
-                if (referencedDto != null) {
-                    destField.setValue(getDest(), referencedDto);
+                Object referencedDest = findProcessedDest(referencedSrc, destField.getFieldType());
+                if (referencedDest != null) {
+                    destField.setValue(getDest(), referencedDest);
                     log.trace("Reference field {} in dest {} is set to already resolved dest {}, no recursive processing is needed",
-                            destField, getDest(), referencedDto);
+                            destField, getDest(), referencedDest);
                     continue;
                 }
 
-                referencedDto = ClassUtils.createUnsafely(destField.getFieldType());
+                referencedDest = obtainDest(destField.getFieldType(), referencedSrc);
+                if (isReferencedItemToBeRecursivelyProcessed(referencedSrc)) {
+                    //Attention! Recursive processing:
+                    getCtx().pushNode(referencedSrc, referencedDest, destField, null);
+                    try {
+                        doProcess();
+                    } finally {
+                        getCtx().popNode();
+                    }
 
-                //Attention! Recursive processing:
-                getCtx().pushNode(referencedDo, referencedDto, destField, null);
-                try {
-                    doProcess();
-                } finally {
-                    getCtx().popNode();
+                    destField.setValue(getDest(), referencedDest);
+                    if (log.isTraceEnabled()) {
+                        log.trace("Reference field {} in dest {} is set to dest {} after recursive processing", destField, getDest(), referencedDest);
+                    }
+                } else {
+                    destField.setValue(getDest(), referencedDest);
+                    if (log.isTraceEnabled()) {
+                        log.trace("Reference field {} in dest {} is set to dest {} without recursive processing", destField, getDest(), referencedDest);
+                    }
                 }
-
-                destField.setValue(getDest(), referencedDto);
-                log.trace("Reference field {} in dest {} is set to dest {} after recursive processing", destField, getDest(), referencedDto);
             }
         }
     }
@@ -287,11 +295,9 @@ public class BeanConverter extends BaseConversionProcessor {
                     log.trace("Collection field {} in dest {} at idx {} is set to already resolved dest {3}, no recursive processing is needed",
                             destField, getDest(), index, destItem);
                 } else {
-                    destItem = ClassUtils.createUnsafely(destField.getCollectionItemClass());
-
+                    destItem = obtainDest(destField.getCollectionItemClass(), srcItem);
                     if (isChildItemToBeRecursivelyProcessed(srcItem)) {
                         beforeChildItemRecursiveProcessing(destField, destItem);
-
                         //Attention! Recursive processing:
                         getCtx().pushNode(srcItem, destItem, destField, "(" + index + ")");
                         try {
@@ -299,15 +305,18 @@ public class BeanConverter extends BaseConversionProcessor {
                         } finally {
                             getCtx().popNode();
                         }
+                        destItems.add(destItem);
+                        if (log.isTraceEnabled()) {
+                            log.trace("Collection  {} in dest {} at idx {} is extended with dest {} after recursive processing",
+                                    destField, getDest(), index, destItem);
+                        }
+                    } else {
+                        destItems.add(destItem);
+                        if (log.isTraceEnabled()) {
+                            log.trace("Collection field {} in dest {} at idx {} is extended with dest {} without recursive processing",
+                                    destField, getDest(), index, destItem);
+                        }
                     }
-
-
-                    destItems.add(destItem);
-                    if (log.isTraceEnabled()) {
-                        log.trace("Collection field {} in dest {} at idx {} is set to dest {} after recursive processing",
-                                destField, getDest(), index, destItem);
-                    }
-
                 }
             }
             index++; //(this index variable is used for logging)
@@ -325,8 +334,16 @@ public class BeanConverter extends BaseConversionProcessor {
         return src != null;
     }
 
-    protected void beforeChildItemRecursiveProcessing(FieldReflection destCollectionField, Object destItem) {
+    protected boolean isReferencedItemToBeRecursivelyProcessed(Object src) {
+        return src != null;
+    }
 
+    /**
+     * To be overriden in descendantds
+     * @param destCollectionField
+     * @param destItem
+     */
+    protected void beforeChildItemRecursiveProcessing(FieldReflection destCollectionField, Object destItem) {
     }
 
     private void processFlatItemsCollection(FieldReflection destField, FieldReflection srcField) {
@@ -344,6 +361,17 @@ public class BeanConverter extends BaseConversionProcessor {
 
         destItems.clear();
         destItems.addAll(srcItems);
+    }
+
+    /**
+     * Obtains destination object. Default implementation simply attemps to create a new instance.
+     *
+     * @param destClass class of destination object
+     * @param forSrcItem source item, the destination will correspond to, may be null
+     * @return
+     */
+    protected Object obtainDest(Class destClass, Object forSrcItem) {
+        return ClassUtils.createUnsafely(destClass);
     }
 
 

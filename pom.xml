@@ -154,12 +154,12 @@
         <repository>
             <id>pr-internal</id>
             <!--<name>Paragon Internal Repository</name>-->
-            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>-->
+            <url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>
         </repository>
         <snapshotRepository>
             <id>pr-internal-snapshots</id>
             <!--<name>Your Snapshot Repository</name>-->
-            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>-->
+            <url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
