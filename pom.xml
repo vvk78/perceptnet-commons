@@ -11,6 +11,7 @@
 
     <modules>
         <module>abstractions</module>
+		<module>resource-str</module>
         <module>utils</module>
         <module>utilsj18plus</module>
         <module>reflection</module>
@@ -48,6 +49,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.21</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

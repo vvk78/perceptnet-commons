@@ -10,12 +10,9 @@
  */
 package com.perceptnet.commons.utils.resource;
 
-import com.perceptnet.commons.utils.StringUtils;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.MissingFormatArgumentException;
-import java.util.stream.Collectors;
 
 
 /**
@@ -64,14 +61,14 @@ public class ResourceMessage implements Serializable {
     }
 
     public static String message(String key) {
-        if (StringUtils.isBlank(key)) {
+        if (isBlank(key)) {
             return "";
         }
         return new ResourceMessage(key).toString();
     }
 
     public static String message(String  key, Object ... args){
-        if (StringUtils.isBlank(key)){
+        if (isBlank(key)){
             return "";
         }
         return new ResourceMessage(new ResourceString(key), args).toString();
@@ -91,7 +88,7 @@ public class ResourceMessage implements Serializable {
         if (e == null) {
             return "";
         }
-        if (StringUtils.isBlank(detail)) {
+        if (isBlank(detail)) {
             return new ResourceMessage(e.getClass().getCanonicalName() + "." + e.name()).toString();
         }
         return new ResourceMessage(e.getClass().getCanonicalName() + "." + e.name() + "." + detail).toString();
@@ -101,9 +98,21 @@ public class ResourceMessage implements Serializable {
         if (e == null) {
             return "";
         }
-        if (StringUtils.isBlank(detail)) {
+        if (isBlank(detail)) {
             return new ResourceMessage(new ResourceString(e.getClass().getCanonicalName() + "." + e.name()), args).toString();
         }
         return new ResourceMessage(new ResourceString(e.getClass().getCanonicalName() + "." + e.name() + "." + detail), args).toString();
+    }
+
+    private static boolean isBlank(String str) {
+        if (str != null) {
+            int strLen = str.length();
+            for (int i = 0; i < strLen; i++) {
+                if (!Character.isWhitespace(str.charAt(i))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

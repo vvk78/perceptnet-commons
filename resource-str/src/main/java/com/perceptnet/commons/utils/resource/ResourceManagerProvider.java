@@ -11,8 +11,6 @@
 package com.perceptnet.commons.utils.resource;
 
 
-import com.perceptnet.commons.utils.ClassUtils;
-
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -32,7 +30,7 @@ public class ResourceManagerProvider {
     private static ResourceManager createManager() {
         String factoryClassName = System.getProperty("com.perceptnet.commons.utils.resource.ResourceManagerFactory");
         if (factoryClassName != null) {
-            ResourceManagerFactory factory = (ResourceManagerFactory) ClassUtils.createSafely(factoryClassName);
+            ResourceManagerFactory factory = (ResourceManagerFactory) createSafely(factoryClassName);
             if (factory != null) {
                 try {
                     return factory.createResourceManager();
@@ -49,6 +47,16 @@ public class ResourceManagerProvider {
                 return null;
             }
         };
+    }
+
+    private static Object createSafely(String fullClassName) {
+        try {
+            Class<?> clazz = Class.forName(fullClassName);
+            return clazz.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
