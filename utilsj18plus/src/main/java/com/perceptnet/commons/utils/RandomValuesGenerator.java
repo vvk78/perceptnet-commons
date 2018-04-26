@@ -1,5 +1,7 @@
 package com.perceptnet.commons.utils;
 
+import com.perceptnet.abstractions.IndexedAccess;
+
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -89,6 +91,18 @@ public class RandomValuesGenerator {
     public <E extends Enum<E>> E randomEnum(Class<E> eClass) {
         E[] enumConstants = eClass.getEnumConstants();
         return enumConstants[random.nextInt(enumConstants.length)];
+    }
+
+    public <E extends Enum<E>> E randomItem(List<E> items) {
+        return items.get(random.nextInt(items.size()));
+    }
+
+    public <T> T randomItem(T[] items) {
+        return items[random.nextInt(items.length)];
+    }
+
+    public <T> T randomItem(IndexedAccess<T> items) {
+        return items.get(random.nextInt(items.size()));
     }
 
 
