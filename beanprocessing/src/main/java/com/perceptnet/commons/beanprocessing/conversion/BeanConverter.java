@@ -129,7 +129,9 @@ public class BeanConverter extends BaseConversionProcessor {
 //                        Object srcValue = srcField.getValue(getSource());
 //                        destField.setValue(getDest(), srcValue == null ? null : srcValue.toString());
                     } else {
-                        destField.setValue(getDest(), srcField.getValue(getSource()));
+                        Object srcValue = srcField.getValue(getSource());
+                        srcValue = convertFlatSrcValueBeforeInstall(destField, srcField, srcValue);
+                        destField.setValue(getDest(), srcValue);
                     }
 
                     log.trace("Field {} copied to dest {} from src {}", destField.getFieldName(), getDest(), getSource());
@@ -364,7 +366,7 @@ public class BeanConverter extends BaseConversionProcessor {
     }
 
     /**
-     * Obtains destination object. Default implementation simply attemps to create a new instance.
+     * Obtains destination object. Default implementation simply attempts to create a new instance.
      *
      * @param destClass class of destination object
      * @param forSrcItem source item, the destination will correspond to, may be null
@@ -372,6 +374,20 @@ public class BeanConverter extends BaseConversionProcessor {
      */
     protected Object obtainDest(Class destClass, Object forSrcItem) {
         return ClassUtils.createUnsafely(destClass);
+    }
+
+    /**
+     * Converts flat source field srcValue before setting it to dest field beyond default conversion.
+     * Converter supports Enum to string and some other obvious conversions out of the box, this method
+     * is used in other cases. Planned to be overriden in descendants if needed, default implementation simply returns srcValue.
+     *
+     * @param destField destination field
+     * @param srcField source field
+     * @param srcValue source field value
+     * @return
+     */
+    protected Object convertFlatSrcValueBeforeInstall(FieldReflection destField, FieldReflection srcField, Object srcValue) {
+        return srcValue;
     }
 
 

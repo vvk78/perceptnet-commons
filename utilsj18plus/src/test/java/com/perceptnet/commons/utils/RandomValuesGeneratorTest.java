@@ -28,7 +28,7 @@ public class RandomValuesGeneratorTest {
         boolean positiveMet = false;
         RandomValuesGenerator g = new RandomValuesGenerator();
         for (int i = 0; i < 100000; i++) {
-            int value = g.generateIntForRange(-99, 99);
+            int value = g.intForRange(-99, 99);
             assertTrue(value <= 99, "Value is greater than high limit: " + value);
             assertTrue(value >= -99, "Value is lower than low limit: " + value);
             if (value < 0) {
@@ -50,7 +50,7 @@ public class RandomValuesGeneratorTest {
         boolean positiveMet = false;
         RandomValuesGenerator g = new RandomValuesGenerator();
         for (int i = 0; i < 100000; i++) {
-            int value = g.generateIntForRange(-90, -10);
+            int value = g.intForRange(-90, -10);
             assertTrue(value >= -90, "Value is lower than low limit: " + value);
             assertTrue(value <= -10, "Value is lower than high limit: " + value);
             allGeneratedValues.add(value);

@@ -74,19 +74,57 @@ public class RandomValuesGenerator {
         }
     }
 
-    public int generateIntForRange(int lowLimit, int highLimit) {
+    public int intForRange(int lowLimit, int highLimit) {
         int result = (int) (random.nextDouble() * ((double) (highLimit - lowLimit))) + lowLimit;
         return result;
     }
 
-    public String generateRussianLetters(int size) {
-        StringBuilder result = new StringBuilder();
+    public long longForRange(long lowLimit, long highLimit) {
+        long result = (long) (random.nextDouble() * ((double) (highLimit - lowLimit))) + lowLimit;
+        return result;
+    }
+
+    public String chars(int size, char start, int range) {
+        StringBuilder result = new StringBuilder(size);
 
         for (int i = 0; i < size; i++) {
-            result.append(Character.toString((char) (((char) random.nextInt(64)) + 'А')));
+            result.append(Character.toString((char) (((char) random.nextInt(range)) + start)));
         }
         return result.toString();
     }
+
+    public String chars(int size, Collection<Character> choice) {
+        StringBuilder result = new StringBuilder(size);
+    }
+
+    public String chars(int size, Collection<Character> choice, Collection<Character> ... choices) {
+        StringBuilder result = new StringBuilder(size);
+    }
+
+    public String cyrillic(int size) {
+        return chars(size, 'А', 64);
+    }
+
+    public String cyrillicLow(int size) {
+        return chars(size, 'а', 32);
+    }
+
+    public String cyrillicHigh(int size) {
+        return chars(size, 'А', 32);
+    }
+
+    public String latin(int size) {
+        return chars(size, 'А', 52);
+    }
+
+    public String latinHigh(int size) {
+        return chars(size, 'A', 26);
+    }
+
+    public String latinLow(int size) {
+        return chars(size, 'a', 26);
+    }
+
 
     public <E extends Enum<E>> E randomEnum(Class<E> eClass) {
         E[] enumConstants = eClass.getEnumConstants();
