@@ -79,6 +79,10 @@ public class RandomValuesGenerator {
         return result;
     }
 
+    public int intPos(int highLimit) {
+        return intForRange(0, highLimit);
+    }
+
     public long longForRange(long lowLimit, long highLimit) {
         long result = (long) (random.nextDouble() * ((double) (highLimit - lowLimit))) + lowLimit;
         return result;
@@ -93,12 +97,28 @@ public class RandomValuesGenerator {
         return result.toString();
     }
 
-    public String chars(int size, Collection<Character> choice) {
+    public String chars(int size, List<Character> choice) {
         StringBuilder result = new StringBuilder(size);
+        for (int i = 0; i < size; i++) {
+            result.append(randomItem(choice));
+        }
+        return result.toString();
     }
 
-    public String chars(int size, Collection<Character> choice, Collection<Character> ... choices) {
+    public String chars(int size, IndexedAccess<Character> choice) {
         StringBuilder result = new StringBuilder(size);
+        for (int i = 0; i < size; i++) {
+            result.append(randomItem(choice));
+        }
+        return result.toString();
+    }
+
+    public String chars(int size, String ... choices) {
+        StringBuilder result = new StringBuilder(size);
+        for (int i = 0; i < size; i++) {
+            result.append(randomItem(new StringIndexedAccess(randomItem(choices))));
+        }
+        return result.toString();
     }
 
     public String cyrillic(int size) {
@@ -114,7 +134,7 @@ public class RandomValuesGenerator {
     }
 
     public String latin(int size) {
-        return chars(size, 'А', 52);
+        return chars(size, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz");
     }
 
     public String latinHigh(int size) {
@@ -131,7 +151,7 @@ public class RandomValuesGenerator {
         return enumConstants[random.nextInt(enumConstants.length)];
     }
 
-    public <E extends Enum<E>> E randomItem(List<E> items) {
+    public <T> T randomItem(List<T> items) {
         return items.get(random.nextInt(items.size()));
     }
 

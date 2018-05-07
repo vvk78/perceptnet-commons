@@ -46,17 +46,18 @@ public class BlendedIndexedAccess<T> implements IndexedAccess<T> {
         }
         SortedMap<Integer, IndexedAccess<T>> headMap = index.headMap(i);
         Integer prevOffset = headMap.lastKey();
-        if ()
-        if (prevOffset)
-
-        int startOffset = 0;
-        for (Map.Entry<Integer, IndexedAccess<T>> entry : headMap.entrySet()) {
-            IndexedAccess<T> access = entry.getValue();
-            if (i < startOffset + access.size() ) {
-                return access.get(i - startOffset);
-            }
-            startOffset += entry.getKey();
-        }
-        throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
+//        if ()
+//        if (prevOffset)
+//
+//        int startOffset = 0;
+//        for (Map.Entry<Integer, IndexedAccess<T>> entry : headMap.entrySet()) {
+//            IndexedAccess<T> access = entry.getValue();
+//            if (i < startOffset + access.size() ) {
+//                return access.get(i - startOffset);
+//            }
+//            startOffset += entry.getKey();
+//        }
+//        throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
+        return null;
     }
 }
