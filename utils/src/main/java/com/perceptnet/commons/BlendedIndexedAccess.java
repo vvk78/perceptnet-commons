@@ -41,27 +41,30 @@ public class BlendedIndexedAccess<T> implements IndexedAccess<T> {
 
     @Override
     public T get(int i) {
-        if (i < 0 || i >= totalSize) {
-            throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
-        }
-        SortedMap<Integer, IndexedAccess<T>> headMap = index.headMap(i);
-        if (!headMap.isEmpty()) {
-            Integer lastOffset = headMap.lastKey();
-            IndexedAccess<T> last = headMap.get(lastOffset);
-            if (i < lastOffset + last.size())
-        }
+        return null;
+//        if (i < 0 || i >= totalSize) {
+//            throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
+//        }
+//        SortedMap<Integer, IndexedAccess<T>> headMap = index.headMap(i);
+//
+//        if (!headMap.isEmpty()) {
+//            Integer lastOffset = headMap.lastKey();
+//            IndexedAccess<T> last = headMap.get(lastOffset);
+//            if (i < lastOffset + last.size())
+//        }
+//
+//        if ()
+//        if (prevOffset)
+//
+//        int startOffset = 0;
+//        for (Map.Entry<Integer, IndexedAccess<T>> entry : headMap.entrySet()) {
+//            IndexedAccess<T> access = entry.getValue();
+//            if (i < startOffset + access.size() ) {
+//                return access.get(i - startOffset);
+//            }
+//            startOffset += entry.getKey();
+//        }
+//        throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
 
-        if ()
-        if (prevOffset)
-
-        int startOffset = 0;
-        for (Map.Entry<Integer, IndexedAccess<T>> entry : headMap.entrySet()) {
-            IndexedAccess<T> access = entry.getValue();
-            if (i < startOffset + access.size() ) {
-                return access.get(i - startOffset);
-            }
-            startOffset += entry.getKey();
-        }
-        throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
     }
 }

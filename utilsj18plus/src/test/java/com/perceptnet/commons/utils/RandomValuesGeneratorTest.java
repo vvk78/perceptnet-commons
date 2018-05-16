@@ -58,4 +58,57 @@ public class RandomValuesGeneratorTest {
         assertTrue(allGeneratedValues.size() > 50, "Suspiciously low variety");
     }
 
+    @Test(groups = {UNIT})
+    public void testLatin() {
+        RandomValuesGenerator g = new RandomValuesGenerator();
+        String str = g.latin(500);
+//        System.out.println("------------");
+//        for (char ch = 'A'; ch <= 'Z'; ch++) {
+//            System.out.print(ch);
+//        }
+//        System.out.println("------------");
+//        for (char ch = 'a'; ch <= 'z'; ch++) {
+//            System.out.print(ch);
+//        }
+//        System.out.println("------------");
+//        System.out.println("Latin characters: " + str);
+//        System.out.println("------------");
+
+        boolean hasLow = false;
+        boolean hasHigh = false;
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            boolean chLow = ch >= 'a' && ch <= 'z';
+            boolean chHigh = (ch >= 'A' && ch <= 'Z');
+            assertTrue(chHigh || chLow, "Wrong char: " + ch);
+
+            hasLow = hasLow || chLow;
+            hasHigh = hasHigh || chHigh;
+        }
+        assertTrue(hasLow, "Not a single low char");
+        assertTrue(hasHigh, "Not a single high char");
+    }
+
+    @Test(groups = {UNIT})
+    public void testCyrillic() {
+        RandomValuesGenerator g = new RandomValuesGenerator();
+        String str = g.cyrillic(500);
+        System.out.println("Сyrillic characters: " + str);
+        boolean hasLow = false;
+        boolean hasHigh = false;
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            boolean chLow = ch >= 'а' && ch <= 'я';
+            boolean chHigh = (ch >= 'А' && ch <= 'Я');
+            assertTrue(chHigh || chLow, "Wrong char: " + ch);
+
+            hasLow = hasLow || chLow;
+            hasHigh = hasHigh || chHigh;
+        }
+        assertTrue(hasLow, "Not a single low char");
+        assertTrue(hasHigh, "Not a single high char");
+
+    }
+
+
 }
