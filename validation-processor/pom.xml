@@ -8,10 +8,11 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>beanprocessing</artifactId>
+    <artifactId>validation-processor</artifactId>
     <packaging>jar</packaging>        
 
     <dependencies>
+<!--
         <dependency>
             <groupId>com.perceptnet.commons</groupId>
             <artifactId>utils</artifactId>
@@ -24,15 +25,11 @@
         </dependency>
         <dependency>
             <groupId>com.perceptnet.commons</groupId>
-            <artifactId>validation-abstractions</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
             <version>1.3.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+-->
     </dependencies>
         
 </project>

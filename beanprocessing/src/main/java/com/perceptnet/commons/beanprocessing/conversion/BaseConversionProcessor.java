@@ -17,7 +17,6 @@ import com.perceptnet.commons.reflection.BeanReflection;
  * Created by vkorovkin on 20.04.2015.
  */
 class BaseConversionProcessor {
-    static final String ID_FIELD_NAME_POSTFIX = "Id";
 
     private ConversionContext ctx;
 

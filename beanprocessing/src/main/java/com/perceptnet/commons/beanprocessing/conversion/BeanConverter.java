@@ -12,6 +12,7 @@
 package com.perceptnet.commons.beanprocessing.conversion;
 
 import com.perceptnet.commons.beanprocessing.BeanKey;
+import com.perceptnet.commons.beanprocessing.Const;
 import com.perceptnet.commons.reflection.BeanReflection;
 import com.perceptnet.commons.reflection.FieldReflection;
 import com.perceptnet.commons.utils.ClassUtils;
@@ -164,7 +165,7 @@ public class BeanConverter extends BaseConversionProcessor {
      * Id destination field can be processed as
      */
     private boolean processFlatDestRefSrcMapping(FieldReflection destField) {
-        String refFieldName = StringUtils.cutOffTail(destField.getFieldName(), ID_FIELD_NAME_POSTFIX);
+        String refFieldName = StringUtils.cutOffTail(destField.getFieldName(), Const.ID_FIELD_NAME_POSTFIX);
         if (refFieldName == null || refFieldName.isEmpty()) {
             return false;
         }
