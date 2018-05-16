@@ -45,7 +45,12 @@ public class BlendedIndexedAccess<T> implements IndexedAccess<T> {
             throw new ArrayIndexOutOfBoundsException("Index " + i + " is out of bounds (0, " + totalSize + ")");
         }
         SortedMap<Integer, IndexedAccess<T>> headMap = index.headMap(i);
-        Integer prevOffset = headMap.lastKey();
+        if (!headMap.isEmpty()) {
+            Integer lastOffset = headMap.lastKey();
+            IndexedAccess<T> last = headMap.get(lastOffset);
+            if (i < lastOffset + last.size())
+        }
+
         if ()
         if (prevOffset)
 
