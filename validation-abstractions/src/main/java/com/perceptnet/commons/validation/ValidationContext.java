@@ -2,7 +2,7 @@ package com.perceptnet.commons.validation;
 
 
 public interface ValidationContext {
-    //void registerProblem(ResourceMessage msg);
+    void registerProblem(String path, String problem);
 
-    String getResourceQualifier();
+//    String getResourceQualifier();
 }

@@ -6,7 +6,7 @@ import com.perceptnet.commons.reflection.ReflectionProvider;
 /**
  * created by vkorovkin on 16.05.2018
  */
-public class ValidationContext {
+public class ValidationContext implements com.perceptnet.commons.validation.ValidationContext {
     private ReflectionProvider srcReflectionProvider;
     private ReflectionProvider destReflectionProvider;
 
@@ -31,18 +31,18 @@ public class ValidationContext {
         return destReflectionProvider;
     }
 
-    void setRootNode(Object srcObject, Object destObject) {
+    void setRootNode(Object srcObject, Class destObjClass) {
         if (curNode != null) {
             throw new IllegalStateException("Looks like an attempt to set a root node when another one exists already");
         }
-        this.curNode = new ValidationNode(this, srcObject, destObject);
+        this.curNode = new ValidationNode(this, srcObject, destReflectionProvider.getReflection(destObjClass));
     }
 
-    void pushNode(Object srcObj, Object destObj, FieldReflection entryPoint, String entryPointPostfix) {
+    void pushNode(Object srcObj, Class destObjClass, FieldReflection entryPoint, String entryPointPostfix) {
         if (curNode == null) {
             throw new IllegalStateException("An attempt to push a child node when there is no parent");
         }
-        curNode = new ValidationNode(curNode, srcObj, entryPoint, entryPointPostfix);
+        curNode = new ValidationNode(curNode, srcObj, destReflectionProvider.getReflection(destObjClass), entryPoint, entryPointPostfix);
     }
 
     void popNode() {
@@ -51,5 +51,10 @@ public class ValidationContext {
 
     public ValidationNode getCurNode() {
         return curNode;
+    }
+
+    @Override
+    public void registerProblem(String path, String problem) {
+        //todo implement
     }
 }
