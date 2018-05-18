@@ -86,7 +86,7 @@ public class SrcByDestValidator extends BaseValidationProcessor {
 
         Long referencedDestId = (Long) srcField.getValue(getSource());
         FieldValidator fieldValidator = getFieldValidator(destRefField);
-        fieldValidator.validateFieldValue(getCtx(), getSource(), referencedDestId);
+        fieldValidator.validateFieldValue(getCtx(), getSource(), referencedDestId, srcField);
 
         return true;
     }
@@ -105,7 +105,7 @@ public class SrcByDestValidator extends BaseValidationProcessor {
                 if (fieldValidator == null) {
                     continue;
                 }
-                fieldValidator.validateFieldValue(getCtx(), getSource(), referencedSrc);
+                fieldValidator.validateFieldValue(getCtx(), srcField, getSource(), referencedSrc);
             }
 
             if (referencedSrc == null) {
@@ -113,7 +113,7 @@ public class SrcByDestValidator extends BaseValidationProcessor {
                 continue;
             }
 
-            //dest recursive processing if needed:
+            //dest recursive processing if needed (Updatatble is a marker we need to recurse into):
             if (Updatable.class.isAssignableFrom(referencedSrc.getClass())) {
                 //Attention! Recursive processing:
                 getCtx().pushNode(referencedSrc, destField.getFieldType(), srcField, null);
