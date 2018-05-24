@@ -28,11 +28,17 @@ public class SrcByDestValidator extends BaseValidationProcessor {
         super(ctx);
     }
 
-    public void process() {
+    public void process(Object src, Class destClass) {
+        getCtx().setRootNode(src, destClass);
         doProcess();
     }
 
     protected void doProcess() {
+        if (getCtx().getProcessedObjects().contains(getSource())) {
+            return; //to avoid infinite recursion
+        }
+        getCtx().getProcessedObjects().add(getSource());
+
         processFlatFields();
         processReferences();
         processCollections();

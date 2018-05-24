@@ -3,6 +3,10 @@ package com.perceptnet.commons.beanprocessing.validation;
 import com.perceptnet.commons.reflection.FieldReflection;
 import com.perceptnet.commons.reflection.ReflectionProvider;
 
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Set;
+
 /**
  * created by vkorovkin on 16.05.2018
  */
@@ -11,6 +15,7 @@ public class ValidationContext implements com.perceptnet.commons.validation.Vali
     private ReflectionProvider destReflectionProvider;
 
     private ValidationNode curNode;
+    private Set processedObjects = Collections.newSetFromMap(new IdentityHashMap());
 
     public ValidationContext(ReflectionProvider srcReflectionProvider, ReflectionProvider destReflectionProvider) {
         if (srcReflectionProvider == null) {
@@ -21,6 +26,10 @@ public class ValidationContext implements com.perceptnet.commons.validation.Vali
         }
         this.srcReflectionProvider = srcReflectionProvider;
         this.destReflectionProvider = destReflectionProvider;
+    }
+
+    public Set getProcessedObjects() {
+        return processedObjects;
     }
 
     public ReflectionProvider getSrcReflectionProvider() {
