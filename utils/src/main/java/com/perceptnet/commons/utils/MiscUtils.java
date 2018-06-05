@@ -26,6 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MiscUtils {
 
+    public static int length(Object[] array) {
+        return array == null ? 0 : array.length;
+    }
+
     public static void keepOnlyFirstN(Collection items, int n) {
         int count = 0;
         for (Iterator iter = items.iterator(); iter.hasNext(); ) {

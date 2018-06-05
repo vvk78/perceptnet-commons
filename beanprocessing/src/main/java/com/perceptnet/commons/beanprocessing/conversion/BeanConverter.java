@@ -65,6 +65,12 @@ public class BeanConverter extends BaseConversionProcessor {
         processReferences();
         processStringSrcRefDestFields();
         processCollections();
+
+        afterNodeSuccessfullyProcessed();
+    }
+
+    protected void afterNodeSuccessfullyProcessed() {
+        //to be overriden in decendants
     }
 
     protected BeanKey createDestKey(Object dest) {
