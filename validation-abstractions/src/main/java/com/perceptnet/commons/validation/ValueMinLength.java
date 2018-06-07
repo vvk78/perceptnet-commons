@@ -6,9 +6,11 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
 
-
+/**
+ * created by vkorovkin on 18.05.2018
+ */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({FIELD})
-public @interface RussianLettersGeneration {
-    int size();
+@Target({METHOD, FIELD})
+public @interface ValueMinLength {
+    int value();
 }

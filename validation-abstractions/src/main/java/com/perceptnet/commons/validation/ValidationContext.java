@@ -1,8 +1,12 @@
 package com.perceptnet.commons.validation;
 
 
+/**
+ *
+ * created by vkorovkin on 16.05.2018
+ */
 public interface ValidationContext {
-    //void registerProblem(ResourceMessage msg);
+    void registerProblem(String path, String problem);
 
-    String getResourceQualifier();
+//    String getResourceQualifier();
 }
