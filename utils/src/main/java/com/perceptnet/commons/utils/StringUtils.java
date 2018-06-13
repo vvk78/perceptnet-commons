@@ -11,8 +11,10 @@
 
 package com.perceptnet.commons.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +23,27 @@ import java.util.Set;
  */
 public class StringUtils {
     private static final Map<Character, Character> CYRILLIC_LATIN_KEYBOARD_MAPPING = buildCyrillicLatinKeyboardMapping();
+
+    public static List<String> unquote(List<String> strs) {
+        if (strs == null) {
+            return null;
+        }
+        List<String> result = new ArrayList<>(strs.size());
+        for (String s : strs) {
+            result.add(unquote(s));
+        }
+        return result;
+    }
+
+    public static String unquote(String val) {
+        if (val == null) {
+            return null;
+        }
+        if (val.startsWith("\"") && val.endsWith("\"")) {
+            val = val.substring(1, val.length() - 1);
+        }
+        return val;
+    }
 
     public static String multiply(String string, int times) {
         if (times <= 0) {

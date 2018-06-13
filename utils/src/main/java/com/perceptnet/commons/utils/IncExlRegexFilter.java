@@ -2,8 +2,10 @@ package com.perceptnet.commons.utils;
 
 import com.perceptnet.abstractions.Adaptor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.perceptnet.commons.utils.RegexUtils.*;
@@ -19,6 +21,35 @@ public class IncExlRegexFilter {
     private Order order = Order.IncludeThenExclude;
     private Collection<Pattern> incFilters;
     private Collection<Pattern> exlFilters;
+
+    public IncExlRegexFilter() {
+    }
+
+
+    /**
+     * Utility method to create filter fir command line args
+     * @param incNameMasks
+     * @param exlNameMasks
+     * @param regexMasks
+     * @return
+     */
+    public static IncExlRegexFilter buildForCommandArgsOrNull(List<String> incNameMasks, List<String> exlNameMasks, boolean regexMasks) {
+        if ((incNameMasks == null || incNameMasks.isEmpty()) && (exlNameMasks == null || exlNameMasks.isEmpty())) {
+            return null;
+        }
+        incNameMasks = StringUtils.unquote(incNameMasks);
+        exlNameMasks = StringUtils.unquote(exlNameMasks);
+        IncExlRegexFilter filter = new IncExlRegexFilter();
+        if (regexMasks) {
+            filter.setIncFiltersStr(incNameMasks);
+            filter.setExlFiltersStr(exlNameMasks);
+        } else {
+            filter.setIncFiltersSimpleWildcards(incNameMasks);
+            filter.setExlFiltersSimpleWildcards(exlNameMasks);
+        }
+        filter.setIncludeNulls(false);
+        return filter;
+    }
 
     public IncExlRegexFilter setIncludeNulls(boolean includeNulls) {
         this.includeNulls = includeNulls;
