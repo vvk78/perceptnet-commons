@@ -12,14 +12,18 @@
 package com.perceptnet.commons.utils;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Created by VKorovkin on 15.05.2015.
  */
 public class MapUtils {
+
+
     public static <K, V> Map<K, V> fillMap(Map<K, V> m, Entry<K, V>... entries) {
         for (Entry<K, V> entry : entries) {
             m.put(entry.getKey(), entry.getValue());

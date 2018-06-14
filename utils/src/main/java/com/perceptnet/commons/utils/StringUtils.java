@@ -24,6 +24,10 @@ import java.util.Set;
 public class StringUtils {
     private static final Map<Character, Character> CYRILLIC_LATIN_KEYBOARD_MAPPING = buildCyrillicLatinKeyboardMapping();
 
+    public static String strOrNull(Object o) {
+        return o == null ? null : o.toString();
+    }
+
     public static List<String> unquote(List<String> strs) {
         if (strs == null) {
             return null;
