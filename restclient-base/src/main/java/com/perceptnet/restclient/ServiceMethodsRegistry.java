@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServiceMethodsRegistry {
     /**
+     * Todo consider refactoring to use qualified signatures
      * This map maps method name with flat signature on description
      */
     private ConcurrentHashMap<String, RestMethodDescription> overloadedMethods;

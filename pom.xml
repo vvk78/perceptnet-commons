@@ -17,6 +17,7 @@
         <module>reflection</module>
         <module>beanprocessing</module>
         <module>restclient-base</module>
+        <module>restclient-json-registry</module>
         <module>restclient-onapacheclient</module>
         <module>restclient-conv-onjackson</module>
         <module>tests</module>
@@ -35,6 +36,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>22.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cedarsoftware</groupId>
+                <artifactId>json-io</artifactId>
+                <version>4.10.0</version>
             </dependency>
             <!-- test dependencies -->
             <dependency>
