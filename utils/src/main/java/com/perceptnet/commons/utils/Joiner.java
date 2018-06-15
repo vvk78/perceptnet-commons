@@ -1,12 +1,15 @@
 package com.perceptnet.commons.utils;
 
 
+import com.perceptnet.abstractions.Adaptor;
+
 public class Joiner {
     private String coma;
     private boolean skipNulls;
     private boolean skipEmpty;
+    private Adaptor itemAdaptor;
 
-    private Joiner(String coma) {
+    protected Joiner(String coma) {
         this.coma = coma;
     }
 
@@ -24,6 +27,11 @@ public class Joiner {
         return this;
     }
 
+    public Joiner adapt(Adaptor itemAdaptor) {
+        this.itemAdaptor = itemAdaptor;
+        return this;
+    }
+
     public Joiner setComa(String coma) {
         this.coma = coma;
         return this;
@@ -33,6 +41,7 @@ public class Joiner {
         Iterable iterable;
         StringBuilder buff = new StringBuilder();
         for (Object item : items) {
+            item = adaptItem(item);
             if (item == null && skipNulls) {
                 continue;
             }
@@ -50,5 +59,12 @@ public class Joiner {
 
     public String join(Object ... items) {
         return join(new ArrayIterable<>(items));
+    }
+
+    private Object adaptItem(Object o) {
+        if (itemAdaptor == null || o == null) {
+            return o;
+        }
+        return itemAdaptor.adapt(o);
     }
 }
