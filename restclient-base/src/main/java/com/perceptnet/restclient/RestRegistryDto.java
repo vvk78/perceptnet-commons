@@ -9,6 +9,10 @@ import java.util.Map;
  *
  * created by vkorovkin on 15.06.2018
  */
-public class RestMethodsInfo {
-    //private Map<String, ServiceMethodsRegistry> services = new HashMap
+public class RestRegistryDto {
+    private Map<String, ServiceMethodsRegistry> services = new HashMap<>();
+
+    public Map<String, ServiceMethodsRegistry> getServices() {
+        return services;
+    }
 }

@@ -11,13 +11,14 @@
 
     <modules>
         <module>abstractions</module>
+        <module>commons-api</module>
         <module>resource-str</module>
+        <module>json-io</module>
         <module>utils</module>
         <module>utilsj18plus</module>
         <module>reflection</module>
         <module>beanprocessing</module>
         <module>restclient-base</module>
-        <module>restclient-json-registry</module>
         <module>restclient-onapacheclient</module>
         <module>restclient-conv-onjackson</module>
         <module>tests</module>

@@ -25,6 +25,14 @@ public class ServiceMethodsRegistry {
         this.methods = methods;
     }
 
+    public ConcurrentHashMap<String, RestMethodDescription> getOverloadedMethods() {
+        return overloadedMethods;
+    }
+
+    public ConcurrentHashMap<String, RestMethodDescription> getMethods() {
+        return methods;
+    }
+
     public RestMethodDescription getMethodDescription(Method m) {
         RestMethodDescription result = methods == null ? null : methods.get(m.getName());
         if (result != null) {
