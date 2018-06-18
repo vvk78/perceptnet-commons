@@ -5,6 +5,7 @@ import com.cedarsoftware.util.io.JsonWriter;
 import com.perceptnet.api.ItemsLoadService;
 import com.perceptnet.api.ItemsSaveService;
 import com.perceptnet.commons.utils.FileUtils;
+import com.perceptnet.commons.utils.IoUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,9 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -22,47 +20,36 @@ import java.util.zip.ZipOutputStream;
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 17.06.2018
  */
-public class JsonPersistenceService implements ItemsLoadService, ItemsSaveService {
-
-    private OutputStream os;
-    private JsonWriter jsonWriter;
-
-    @Override
-    public Object loadItem(String fileOrResourceName) {
-        return loadItems(fileOrResourceName).iterator().next();
+public class JsonService implements ItemsLoadService, ItemsSaveService {
+    public void saveItem(OutputStream os, Object item) {
+        new JsonWriter(os).write(item);
     }
 
-    @Override
     public void saveItem(String fileName, Object item) {
-        saveItems(fileName, new ArrayList(Collections.singletonList(item)));
-    }
-
-    public void saveItems(String fileName, Collection items) {
-        prepareOutput(fileName);
+        OutputStream os = prepareOutput(fileName);
         try {
-            jsonWriter.write(items);
-            this.os.flush();
+            JsonWriter jsonWriter = new JsonWriter(os);
+            jsonWriter.write(item);
+            os.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            if (this.os != null) {
+            if (os != null) {
                 try {
-                    this.os.close();
-                    this.os = null;
+                    os.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            jsonWriter = null;
         }
     }
 
-    public Collection loadItems(String fileOrResourceName) {
+    public Object loadItem(String fileOrResourceName) {
         try (InputStream is = getInput(fileOrResourceName)) {
             if (is instanceof ZipInputStream) {
                 ZipEntry entry = ((ZipInputStream)is).getNextEntry();
             }
-            Collection result = (Collection) JsonReader.jsonToJava(is, null);
+            Object result = JsonReader.jsonToJava(is, null);
             return result;
         } catch (Exception e) {
             throw new RuntimeException("Cannot load class information from " + fileOrResourceName + " due to " + e, e);
@@ -86,13 +73,14 @@ public class JsonPersistenceService implements ItemsLoadService, ItemsSaveServic
         return result;
     }
 
-    private void prepareOutput(String fileName) {
+    private OutputStream prepareOutput(String fileName) {
         if (fileName == null || fileName.trim().isEmpty()) {
             throw new IllegalArgumentException("File name is not specified");
         }
         FileUtils.prepareFileForReCreation(fileName);
+        FileOutputStream fos = null;
         try {
-            FileOutputStream fos = new FileOutputStream(fileName);
+            fos = new FileOutputStream(fileName);
             if (fileName.endsWith(".zip")) {
                 ZipOutputStream zos = new ZipOutputStream(fos);
                 zos.setLevel(9);
@@ -102,13 +90,12 @@ public class JsonPersistenceService implements ItemsLoadService, ItemsSaveServic
                     simpleNameIndex = 0;
                 }
                 zos.putNextEntry(new ZipEntry(fileName.substring(simpleNameIndex, zipIndex)));
-                this.os = zos;
+                return zos;
             } else {
-                this.os = fos;
+                return fos;
             }
-
-            this.jsonWriter = new JsonWriter(this.os);
         } catch (IOException e) {
+            IoUtils.closeSafely(fos);
             throw new RuntimeException(e);
         }
     }
