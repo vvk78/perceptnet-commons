@@ -1,5 +1,7 @@
 package com.perceptnet.restclient;
 
+import com.perceptnet.restclient.dto.RestMethodDescription;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 

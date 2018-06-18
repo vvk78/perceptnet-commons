@@ -1,7 +1,8 @@
 package com.perceptnet.restclient;
 
+import com.perceptnet.restclient.dto.RestMethodDescription;
+
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,24 +18,24 @@ public class BaseRestMethodRegistry implements RestMethodDescriptionProvider {
 
     private final ConcurrentHashMap<Method, RestMethodDescription> fastMap;
 
-    /**
-     * Constructs registry from json-representable DTO (may be loaded from resources, file or network)
-     * @param registryDto
-     */
-    public BaseRestMethodRegistry(RestRegistryDto registryDto) {
-        if (registryDto == null) {
-            throw new NullPointerException("RegistryDto is null");
-        }
-
-        ConcurrentHashMap<String, ServiceMethodsRegistry> slowMap = new ConcurrentHashMap<>(registryDto.getServices());
-        int totalMethod = 0;
-        for (ServiceMethodsRegistry sr : registryDto.getServices().values()) {
-            totalMethod = totalMethod + sr.getMethods().size();
-        }
-
-        this.fastMap = new ConcurrentHashMap<>(totalMethod);
-        this.slowMap = slowMap;
-    }
+//    /**
+//     * Constructs registry from json-representable DTO (may be loaded from resources, file or network)
+//     * @param registryDto
+//     */
+//    public BaseRestMethodRegistry(ModuleRestRegistryDto registryDto) {
+//        if (registryDto == null) {
+//            throw new NullPointerException("RegistryDto is null");
+//        }
+//
+//        ConcurrentHashMap<String, ServiceMethodsRegistry> slowMap = new ConcurrentHashMap<>(registryDto.getServices());
+//        int totalMethod = 0;
+//        for (ServiceMethodsRegistry sr : registryDto.getServices().values()) {
+//            totalMethod = totalMethod + sr.getMethods().size();
+//        }
+//
+//        this.fastMap = new ConcurrentHashMap<>(totalMethod);
+//        this.slowMap = slowMap;
+//    }
 
     public BaseRestMethodRegistry(int totalMethodsCount, ConcurrentHashMap<String, ServiceMethodsRegistry> slowMap) {
         this.fastMap = new ConcurrentHashMap<>(totalMethodsCount);

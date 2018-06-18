@@ -19,6 +19,7 @@
         <module>reflection</module>
         <module>beanprocessing</module>
         <module>restclient-base</module>
+        <module>restclient-base-dto</module>
         <module>restclient-onapacheclient</module>
         <module>restclient-conv-onjackson</module>
         <module>tests</module>

@@ -1,6 +1,9 @@
-package com.perceptnet.restclient;
+package com.perceptnet.restclient.dto;
+
 
 /**
+ * Rest method description (inside service). Suitable for json representation.
+ *
  * created by vkorovkin (vkorovkin@gmail.com) on 27.11.2017
  */
 public class RestMethodDescription {
@@ -13,10 +16,13 @@ public class RestMethodDescription {
      */
     private String[] pathPieces;
     /**
-     * Mapping of placeholder index (which is order number of null items in pathPieces array starting from 0
-     * E.g. if pathPieces is ["counter", null, "?userid=", null] pathArgumentIndices is to be expected to have length 2)
-     * to index of method argument
-     * Index of method argument corresponds to index in this array.
+     * Mapping of placeholder index..
+     *
+     * (which is index of null items in {@link #pathPieces} array
+     * E.g. if pathPieces is ["counter", null, "?userid=", null] {@link #pathArgumentIndices} is to be expected to have length 2
+     * -- according to number of nulls in {@link #pathPieces} array)
+     *
+     * .. to index of java method argument. (Index of java method argument corresponds to index in this array).
      */
     private int[] pathArgumentIndices;
     /**

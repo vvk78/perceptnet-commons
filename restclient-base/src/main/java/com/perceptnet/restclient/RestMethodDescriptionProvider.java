@@ -1,5 +1,7 @@
 package com.perceptnet.restclient;
 
+import com.perceptnet.restclient.dto.RestMethodDescription;
+
 import java.lang.reflect.Method;
 
 /**

@@ -1,5 +1,7 @@
 package com.perceptnet.restclient;
 
+import com.perceptnet.restclient.dto.HttpMethod;
+
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 27.11.2017
  */
