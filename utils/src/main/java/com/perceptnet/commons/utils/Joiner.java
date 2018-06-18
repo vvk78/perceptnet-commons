@@ -37,8 +37,7 @@ public class Joiner {
         return this;
     }
 
-    public String join(Iterable<Object> items) {
-        Iterable iterable;
+    public String join(Iterable items) {
         StringBuilder buff = new StringBuilder();
         for (Object item : items) {
             item = adaptItem(item);
@@ -57,7 +56,7 @@ public class Joiner {
         return buff.toString();
     }
 
-    public String join(Object ... items) {
+    public String joinArr(Object ... items) {
         return join(new ArrayIterable<>(items));
     }
 
