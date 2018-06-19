@@ -24,6 +24,14 @@ public class ClassUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ClassUtils.class);
 
+    public static String simpleName(String qualifiedName) {
+        int idx = qualifiedName.lastIndexOf(".");
+        if (idx == -1) {
+            return qualifiedName;
+        }
+        return qualifiedName.substring(idx + 1);
+    }
+
     public static Class classForNameUnsafely(String className) {
         try {
             return Class.forName(className);
