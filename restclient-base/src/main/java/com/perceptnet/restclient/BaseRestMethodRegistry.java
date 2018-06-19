@@ -16,7 +16,7 @@ public class BaseRestMethodRegistry implements RestMethodDescriptionProvider {
     /**
      * Initial "slow" map of string class names and then sting method signatures on RestMethod descriptions.
      * This map is initially filled in source code produced by code generator. Gradually its content migrates to
-     * fastMap as method names get resolved. Finally, when there is not content left, the map is made null to be GC-ed
+     * fastMap as method names get resolved. Finally, when there is no content left, the map is made null to be GC-ed
      */
     private volatile ConcurrentHashMap<String, ServiceMethodsRegistry> slowMap;
 
@@ -32,8 +32,8 @@ public class BaseRestMethodRegistry implements RestMethodDescriptionProvider {
         }
 
         ConcurrentHashMap<String, ServiceMethodsRegistry> slowMap = new ConcurrentHashMap<>();
-        for (Map.Entry<String, ServiceRestRegistryDto> set: registryDto.getServices().entrySet()) {
-            slowMap.put(set.getKey(), new ServiceMethodsRegistry(null, new ConcurrentHashMap<>(set.getValue().getMethods())));
+        for (Map.Entry<String, ServiceRestRegistryDto> entry: registryDto.getServices().entrySet()) {
+            slowMap.put(entry.getKey(), new ServiceMethodsRegistry(null, new ConcurrentHashMap<>(entry.getValue().getMethods())));
         }
 
         int totalMethod = 0;
