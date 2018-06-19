@@ -6,11 +6,12 @@ package com.perceptnet.api;
 public interface ServiceProvider {
 
     /**
-     * Provides service of given class
+     * Provides service of given class if its available and null otherwise.
+     *
      * @param serviceClass
-     * @param servicePath extra parameters to resolve needed service
+     * @param serviceExtraQualifiers extra parameters to resolve needed service. May be null.
      * @param <S>
      * @return
      */
-    <S> S getService(Class<S> serviceClass, String servicePath);
+    <S> S getService(Class<S> serviceClass, String serviceExtraQualifiers);
 }

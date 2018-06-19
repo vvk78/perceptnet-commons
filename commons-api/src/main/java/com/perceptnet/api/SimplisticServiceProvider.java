@@ -3,7 +3,7 @@ package com.perceptnet.api;
 import com.perceptnet.commons.utils.ClassUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
-import static com.perceptnet.api.SimplisticServiceProvider.ServicePathPair.*;
+import static com.perceptnet.api.SimplisticServiceProvider.ServiceQualsPair.*;
 
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 17.06.2018
@@ -12,47 +12,50 @@ class SimplisticServiceProvider implements ServiceProvider {
     private final ConcurrentHashMap<String, Object> knownImplementationsMap = new ConcurrentHashMap<String, Object>();
 
     SimplisticServiceProvider() {
+        registerKnownDefaultMappingsWhenAvailable();
     }
 
     @Override
-    public <S> S getService(Class<S> serviceClass, String servicePath) {
-        return (S) knownImplementationsMap.get(serviceKey(serviceClass, servicePath));
+    public <S> S getService(Class<S> serviceClass, String serviceExtraQualifiers) {
+        return (S) knownImplementationsMap.get(serviceKey(serviceClass, serviceExtraQualifiers));
     }
 
-    public void registerImpl(Class serviceClass, String servicePath, Object serviceImpl) {
-        knownImplementationsMap.put(serviceKey(serviceClass, servicePath), serviceImpl);
+    public void registerImpl(Class serviceClass, String serviceQualifiers, Object serviceImpl) {
+        knownImplementationsMap.put(serviceKey(serviceClass, serviceQualifiers), serviceImpl);
     }
 
-    private String serviceKey(Class serviceClass, String servicePath) {
-        return serviceClass.getName() + " " + servicePath;
+    private String serviceKey(Class serviceClass, String serviceQualifiers) {
+        return serviceClass.getName() + " " + serviceQualifiers;
     }
 
     private void registerKnownDefaultMappingsWhenAvailable() {
-        proble("com.perceptnet.commons.json.JsonService", paths(null, "json"), spp(ItemsLoadService.class), spp(ItemsSaveService.class));
+        proble("com.perceptnet.commons.json.JsonService", quals(null, "json"), sqp(ItemsLoadService.class), sqp(ItemsSaveService.class));
     }
 
-    private void proble(String className, String[] commonPaths, ServicePathPair ... servicesAndPaths) {
+    private void proble(String className, String[] commonQuals, ServiceQualsPair... servicesAndPaths) {
         Object impl = ClassUtils.createSafely(className);
         if (impl == null) {
             return;
         }
-        for (ServicePathPair spp : servicesAndPaths) {
+        for (ServiceQualsPair spp : servicesAndPaths) {
             if (spp.service.isAssignableFrom(impl.getClass())) {
-                if (commonPaths != null) {
-                    for (String commonPath : commonPaths) {
-                        registerImpl(spp.service, commonPath, impl);
+                //register service with common qualifiers
+                if (commonQuals != null) {
+                    for (String q : commonQuals) {
+                        registerImpl(spp.service, q, impl);
                     }
                 }
-                if (spp.paths != null) {
-                    for (String path : spp.paths) {
-                        registerImpl(spp.service, path, impl);
+                //register service with specific qualifiers
+                if (spp.quals != null) {
+                    for (String q : spp.quals) {
+                        registerImpl(spp.service, q, impl);
                     }
                 }
             }
         }
     }
 
-    private String[] paths(String ... paths) {
+    private String[] quals(String ... paths) {
         return paths;
     }
 
@@ -61,21 +64,21 @@ class SimplisticServiceProvider implements ServiceProvider {
     //                                               I N N E R    C L A S S E S
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    static final class ServicePathPair {
+    static final class ServiceQualsPair {
         Class<?> service;
-        String[] paths;
+        String[] quals;
 
-        private ServicePathPair(Class service, String ... paths) {
+        private ServiceQualsPair(Class service, String ... quals) {
             this.service = service;
-            this.paths = paths;
+            this.quals = quals;
         }
 
-        static ServicePathPair spp(Class service, String ... paths) {
-            return new ServicePathPair(service, paths);
+        static ServiceQualsPair sqp(Class service, String ... paths) {
+            return new ServiceQualsPair(service, paths);
         }
 
-        static ServicePathPair spp(Class service) {
-            return new ServicePathPair(service, null);
+        static ServiceQualsPair sqp(Class service) {
+            return new ServiceQualsPair(service, null);
         }
     }
 
