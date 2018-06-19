@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 07.12.2017
+ * edited by villarionov
  */
 public class ServiceMethodsRegistry {
     /**
