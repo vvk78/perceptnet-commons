@@ -144,6 +144,7 @@ public class HttpClientRestCallerImpl implements RestCaller {
                 if (request.getObjFormat() == RestObjFormat.json) {
                     try {
                         envelop.setEntity(new StringEntity(request.getRequestBody(), "UTF-8"));
+                        envelop.setHeader("Content-type", "application/json");
                     } catch (UnsupportedEncodingException e) {
                         throw new RuntimeException(e);
                     }

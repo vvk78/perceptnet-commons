@@ -31,7 +31,11 @@ class RestRequestBuilder {
                 addPathPiece(buff, baseUrl, item);
             }
         }
-        result.setPath(buff.toString());
+        if (buff.length() == 0) {
+            result.setPath(baseUrl);
+        } else {
+            result.setPath(buff.toString());
+        }
         if (d.getBodyArgumentIndex() >= 0) {
             String body = converter.format(arguments[d.getBodyArgumentIndex()]);
             //result.setRequestBody(translateArgument(arguments[d.getBodyArgumentIndex()]));
