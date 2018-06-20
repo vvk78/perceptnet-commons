@@ -22,6 +22,23 @@ import java.util.Collection;
  */
 public class ReflectionUtils {
 
+    public static String getMethodQualifiedSignature(Method m) {
+        StringBuilder b = new StringBuilder(m.getName().length() + (m.getParameterTypes().length * 50) + 10);
+        b.append(m.getName());
+        b.append("(");
+        boolean first = true;
+        for (Class<?> aClass : m.getParameterTypes()) {
+            if (!first) {
+                b.append(",");
+            } else {
+                first = false;
+            }
+            b.append(aClass.getName());
+        }
+        b.append(")");
+        return b.toString();
+    }
+
     public static String getFieldName(Method method) {
         if (method.getName().startsWith("is")) {
             return Introspector.decapitalize(StringUtils.getTail(method.getName(), "is"));

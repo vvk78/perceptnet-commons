@@ -33,7 +33,7 @@ public class BaseRestMethodRegistry implements RestMethodDescriptionProvider {
 
         ConcurrentHashMap<String, ServiceMethodsRegistry> slowMap = new ConcurrentHashMap<>();
         for (Map.Entry<String, ServiceRestRegistryDto> entry: registryDto.getServices().entrySet()) {
-            slowMap.put(entry.getKey(), new ServiceMethodsRegistry(null, new ConcurrentHashMap<>(entry.getValue().getMethods())));
+            slowMap.put(entry.getKey(), new ServiceMethodsRegistry(new ConcurrentHashMap<>(entry.getValue().getMethods())));
         }
 
         int totalMethod = 0;

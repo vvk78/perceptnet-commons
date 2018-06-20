@@ -16,6 +16,7 @@ import com.perceptnet.abstractions.Coded;
 import com.perceptnet.abstractions.Identified;
 import com.perceptnet.abstractions.Named;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +26,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by VKorovkin on 24.03.2015.
  */
 public class MiscUtils {
+
+    public static String getMethodQualifiedSignature(Method m) {
+        StringBuilder b = new StringBuilder(m.getName().length() + (m.getParameterTypes().length * 50) + 10);
+        b.append(m.getName());
+        b.append("(");
+        boolean first = true;
+        for (Class<?> aClass : m.getParameterTypes()) {
+            if (!first) {
+                b.append(",");
+            } else {
+                first = false;
+            }
+            b.append(aClass.getName());
+        }
+        b.append(")");
+        return b.toString();
+    }
 
     public static int length(Object[] array) {
         return array == null ? 0 : array.length;
