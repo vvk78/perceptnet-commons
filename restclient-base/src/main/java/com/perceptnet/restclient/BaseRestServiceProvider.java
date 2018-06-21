@@ -97,6 +97,8 @@ public class BaseRestServiceProvider {
         return null;
     }
 
+    //protected void signInBasic(String singInPath)
+
     private String join(String[] items, String with) {
         StringBuilder buff = new StringBuilder(items.length * 100);
         for (String item : items) {

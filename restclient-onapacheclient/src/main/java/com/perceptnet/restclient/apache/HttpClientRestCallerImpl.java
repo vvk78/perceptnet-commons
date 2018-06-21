@@ -142,16 +142,26 @@ public class HttpClientRestCallerImpl implements RestCaller {
         if (envelop != null) {
             if (request.getRequestBody() != null) {
                 if (request.getObjFormat() == RestObjFormat.json) {
-                    try {
-                        envelop.setEntity(new StringEntity(request.getRequestBody(), "UTF-8"));
-                        envelop.setHeader("Content-type", "application/json");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
+                    envelop.setEntity(new StringEntity(request.getRequestBody(), "UTF-8"));
+                    envelop.setHeader("Content-type", "application/json");
                 } else {
                     throw new UnsupportedOperationException("Unsupported rest format: " + request.getObjFormat());
                 }
             }
+            if (request.getExtraHeaders() != null && !request.getExtraHeaders().isEmpty())
+                for (String s : request.getExtraHeaders()) {
+                    if (s == null) {
+                        continue;
+                    }
+                    int firstSpaceIdx = s.indexOf(' ');
+                    if (firstSpaceIdx == -1) {
+                        continue;
+                    }
+                    String headerName = s.substring(0, firstSpaceIdx).trim();
+                    String headerValue = s.substring(firstSpaceIdx).trim();
+                    envelop.setHeader(headerName, headerValue);
+                }
+
             result = envelop;
         }
 

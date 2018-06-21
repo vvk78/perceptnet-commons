@@ -1,6 +1,9 @@
 package com.perceptnet.restclient;
 
 import com.perceptnet.restclient.dto.HttpMethod;
+import javafx.util.Pair;
+
+import java.util.List;
 
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 27.11.2017
@@ -9,6 +12,8 @@ public class RestRequest {
     private HttpMethod httpMethod;
     private String path;
     private String requestBody;
+
+    private List<String> extraHeaders;
 
     RestRequest() {
     }
@@ -50,5 +55,13 @@ public class RestRequest {
     @Override
     public String toString() {
         return httpMethod + " " + path;
+    }
+
+    public List<String> getExtraHeaders() {
+        return extraHeaders;
+    }
+
+    public void setExtraHeaders(List<String> extraHeaders) {
+        this.extraHeaders = extraHeaders;
     }
 }
