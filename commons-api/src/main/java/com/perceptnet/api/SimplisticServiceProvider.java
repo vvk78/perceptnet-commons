@@ -29,10 +29,10 @@ class SimplisticServiceProvider implements ServiceProvider {
     }
 
     private void registerKnownDefaultMappingsWhenAvailable() {
-        proble("com.perceptnet.commons.json.JsonService", quals(null, "json"), sqp(ItemsLoadService.class), sqp(ItemsSaveService.class));
+        probe("com.perceptnet.commons.json.JsonService", quals(null, "json"), sqp(ItemsLoadService.class), sqp(ItemsSaveService.class));
     }
 
-    private void proble(String className, String[] commonQuals, ServiceQualsPair... servicesAndPaths) {
+    private void probe(String className, String[] commonQuals, ServiceQualsPair... servicesAndPaths) {
         Object impl = ClassUtils.createSafely(className);
         if (impl == null) {
             return;
