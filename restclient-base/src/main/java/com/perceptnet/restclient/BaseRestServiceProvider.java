@@ -1,8 +1,12 @@
 package com.perceptnet.restclient;
 
+import com.perceptnet.restclient.dto.HttpMethod;
+import com.perceptnet.restclient.dto.RestMethodDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.BASE64Encoder;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Proxy;
 
 /**
@@ -95,6 +99,31 @@ public class BaseRestServiceProvider {
             }
         }
         return null;
+    }
+
+    protected void signInBasic(String singInPath, String login, String password) {
+        RestRequestBuilder rb = handler.getRequestBuilder();
+        RestMethodDescription md = new RestMethodDescription(HttpMethod.post, new String[]{singInPath}, null);
+        RestRequest r = rb.build(handler.getBaseUrl(), md, null);
+        r.extraHeaders("Authorization Basic " + b64(login +":" + password));
+        handler.doInvokeRest(r);
+    }
+
+    protected void signOut(String singOutPath) {
+        RestRequestBuilder rb = handler.getRequestBuilder();
+        RestMethodDescription md = new RestMethodDescription(HttpMethod.post, new String[]{singOutPath}, null);
+        RestRequest r = rb.build(handler.getBaseUrl(), md, null);
+        handler.doInvokeRest(r);
+    }
+
+    private String b64(String str) {
+        try {
+            BASE64Encoder e = new BASE64Encoder();
+            String result = e.encode(str.getBytes("UTF-8"));
+            return result;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //protected void signInBasic(String singInPath)

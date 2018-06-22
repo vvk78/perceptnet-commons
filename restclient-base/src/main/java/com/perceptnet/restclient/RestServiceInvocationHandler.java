@@ -57,6 +57,14 @@ public class RestServiceInvocationHandler extends RestCallerInvocationEventWrapp
 
     }
 
+    RestRequestBuilder getRequestBuilder() {
+        return requestBuilder;
+    }
+
+    String getBaseUrl() {
+        return baseUrl;
+    }
+
     public void setRmdProvider(RestMethodDescriptionProvider rmdProvider) {
         this.rmdProvider = rmdProvider;
     }

@@ -32,7 +32,7 @@ public class RestCallerInvocationEventWrapper {
         return restCaller;
     }
 
-    protected String doInvokeRest(RestRequest request) {
+    String doInvokeRest(RestRequest request) {
         String rawResponse;
         fireBeforeCallEvent();
         try {

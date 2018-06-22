@@ -3,6 +3,7 @@ package com.perceptnet.restclient;
 import com.perceptnet.restclient.dto.HttpMethod;
 import javafx.util.Pair;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,5 +64,9 @@ public class RestRequest {
 
     public void setExtraHeaders(List<String> extraHeaders) {
         this.extraHeaders = extraHeaders;
+    }
+
+    public void extraHeaders(String ... extraHeaders) {
+        setExtraHeaders(extraHeaders == null ? null : Arrays.asList(extraHeaders));
     }
 }

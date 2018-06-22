@@ -64,6 +64,9 @@ public class HttpClientRestCallerImpl implements RestCaller {
         String responseBody;
         try {
             responseBody = httpClient.execute(httpMethod, responseHandler);
+        } catch (HttpResponseException e) {
+            throw new RestInvocationException("Cannot invoke REST " + request + " due to " + e +
+                    " (Code: " + responseHandler.response.getStatusLine().getStatusCode() + ")", e);
         } catch (ClientProtocolException e) {
             throw new RestInvocationException("Cannot invoke REST " + request + " due to " + e, e);
         } catch (IOException e) {
@@ -179,6 +182,7 @@ public class HttpClientRestCallerImpl implements RestCaller {
         public String handleResponse(HttpResponse response) throws HttpResponseException, IOException {
             this.response = response;
             return super.handleResponse(response);
+
         }
     }
 
