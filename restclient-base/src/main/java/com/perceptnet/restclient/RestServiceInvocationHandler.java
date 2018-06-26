@@ -50,6 +50,8 @@ public class RestServiceInvocationHandler extends RestCallerInvocationEventWrapp
             String rawResponse = doInvokeRest(request);
             if (method.getReturnType() == void.class) {
                 return null;
+            } else if (rawResponse == null || rawResponse.isEmpty()) {
+                return null;
             } else {
                 return converter.parse(method.getReturnType(), rawResponse);
             }
