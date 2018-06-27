@@ -26,9 +26,11 @@ class RestRequestBuilder {
                 addPathPiece(buff, baseUrl, pathPiece);
             } else {
                 int i = d.getPathArgumentIndices()[argIndex++];
-                String item = translateArgument(arguments[i]);
-                //add base url and glue it with next path piece:
-                addPathPiece(buff, baseUrl, item);
+                if (i >= 0) {
+                    String item = translateArgument(arguments[i]);
+                    //add base url and glue it with next path piece:
+                    addPathPiece(buff, baseUrl, item);
+                }
             }
         }
         if (buff.length() == 0) {
