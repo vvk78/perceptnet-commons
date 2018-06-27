@@ -21,10 +21,12 @@ import java.util.Collection;
  * Created by VKorovkin on 16.03.2015.
  */
 public class ReflectionUtils {
+    public static String getMethodKey(Method m) {
+        return m.getName() + getMethodQualifiedBracedSignature(m);
+    }
 
-    public static String getMethodQualifiedSignature(Method m) {
+    public static String getMethodQualifiedBracedSignature(Method m) {
         StringBuilder b = new StringBuilder(m.getName().length() + (m.getParameterTypes().length * 50) + 10);
-        b.append(m.getName());
         b.append("(");
         boolean first = true;
         for (Class<?> aClass : m.getParameterTypes()) {

@@ -4,8 +4,10 @@ import com.perceptnet.restclient.RestCaller;
 import com.perceptnet.restclient.RestInvocationException;
 import com.perceptnet.restclient.RestObjFormat;
 import com.perceptnet.restclient.RestRequest;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
@@ -61,19 +63,29 @@ public class HttpClientRestCallerImpl implements RestCaller {
     public String invokeRest(RestRequest request) {
         HttpRequestBase httpMethod = createHttpMethod(request);
         ResponseHandlerImpl responseHandler = new ResponseHandlerImpl();
-        String responseBody;
+        String responseBody = null;
         try {
             responseBody = httpClient.execute(httpMethod, responseHandler);
         } catch (HttpResponseException e) {
-            throw new RestInvocationException("Cannot invoke REST " + request + " due to " + e +
-                    " (Code: " + responseHandler.response.getStatusLine().getStatusCode() + ")", e);
+            StatusLine sl = responseHandler.response.getStatusLine();
+            RestInvocationException re = new RestInvocationException("Cannot invoke REST " + request + " due to " + e +
+                    " (Code: " + sl.getStatusCode() + " " + sl.getReasonPhrase() + ")", e);
+            try {
+                responseBody = EntityUtils.toString(responseHandler.response.getEntity());
+            } catch (Exception e2) {
+            }
+            if (responseBody != null) {
+                re.setResponseBody(responseBody);
+            }
+            throw re;
         } catch (ClientProtocolException e) {
             throw new RestInvocationException("Cannot invoke REST " + request + " due to " + e, e);
         } catch (IOException e) {
             throw new RestInvocationException("Cannot invoke REST " + request + " due to " + e, e);
         }
         if (responseHandler.response != null) {
-            int statusCode = responseHandler.response.getStatusLine().getStatusCode();
+            StatusLine sl = responseHandler.response.getStatusLine();
+            int statusCode = sl.getStatusCode();
             if (statusCode < 200 || statusCode >= 300) {
                 throw new RestInvocationException(statusCode, responseBody);
             }

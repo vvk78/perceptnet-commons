@@ -16,6 +16,8 @@ public class RestServiceInvocationHandler extends RestCallerInvocationEventWrapp
     private RestCaller restCaller;
     private RestCallEventListener eventListener;
 
+    private RestInvocationErrorHandler restInvocationErrorHandler;
+
     private MessageConverter converter;
 
     public RestServiceInvocationHandler(String baseUrl, RestMethodDescriptionProvider rmdProvider, RestCaller restCaller, MessageConverter converter) {
@@ -45,9 +47,9 @@ public class RestServiceInvocationHandler extends RestCallerInvocationEventWrapp
 
         Type[] params = method.getGenericParameterTypes();
         if (method.getReturnType() == byte[].class) {
-            return doInvokeRestForBytes(request);
+            return invokeRestForMethodForBytes(request, method);
         } else {
-            String rawResponse = doInvokeRest(request);
+            String rawResponse = invokeRestForMethod(request, method);
             if (method.getReturnType() == void.class) {
                 return null;
             } else if (rawResponse == null || rawResponse.isEmpty()) {
@@ -56,7 +58,35 @@ public class RestServiceInvocationHandler extends RestCallerInvocationEventWrapp
                 return converter.parse(method.getReturnType(), rawResponse);
             }
         }
+    }
 
+
+    String invokeRestForMethod(RestRequest request, Method m) throws Throwable {
+        try {
+            return doInvokeRest(request);
+        } catch (RestInvocationException rie) {
+            RestInvocationErrorHandler h = this.restInvocationErrorHandler;
+            if (h != null) {
+                //basically has the only option to throw something else or undertake some actions, there
+                //is now way to swallow the exception, an exception will be thrown anyway
+                h.handle(rie, converter, m);
+            }
+            throw rie; //if anyhow unhandled, throw original
+        }
+    }
+
+    byte[] invokeRestForMethodForBytes(RestRequest request, Method m) throws Throwable {
+        try {
+            return doInvokeRestForBytes(request);
+        } catch (RestInvocationException rie) {
+            RestInvocationErrorHandler h = this.restInvocationErrorHandler;
+            if (h != null) {
+                //basically has the only option to throw something else or undertake some actions, there
+                //is now way to swallow the exception, an exception will be thrown anyway
+                h.handle(rie, converter, m);
+            }
+            throw rie; //if anyhow unhandled, throw original
+        }
     }
 
     RestRequestBuilder getRequestBuilder() {
@@ -81,5 +111,13 @@ public class RestServiceInvocationHandler extends RestCallerInvocationEventWrapp
 
     public void setEventListener(RestCallEventListener eventListener) {
         this.eventListener = eventListener;
+    }
+
+    public RestInvocationErrorHandler getRestInvocationErrorHandler() {
+        return restInvocationErrorHandler;
+    }
+
+    public void setRestInvocationErrorHandler(RestInvocationErrorHandler restInvocationErrorHandler) {
+        this.restInvocationErrorHandler = restInvocationErrorHandler;
     }
 }

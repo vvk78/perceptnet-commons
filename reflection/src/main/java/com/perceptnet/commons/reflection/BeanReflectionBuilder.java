@@ -12,6 +12,7 @@
 package com.perceptnet.commons.reflection;
 
 import com.perceptnet.commons.utils.ClassUtils;
+import com.perceptnet.commons.utils.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

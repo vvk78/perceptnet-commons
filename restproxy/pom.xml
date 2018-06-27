@@ -16,7 +16,7 @@
 
     <groupId>com.perceptnet.commons.restproxy</groupId>
     <artifactId>restproxy</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <dependencies>
         <!--<dependency>-->

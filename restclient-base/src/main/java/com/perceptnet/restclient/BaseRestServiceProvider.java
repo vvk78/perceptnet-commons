@@ -78,6 +78,10 @@ public class BaseRestServiceProvider {
         return result;
     }
 
+    protected RestServiceInvocationHandler getHandler() {
+        return handler;
+    }
+
     public void setRestCallEventsListener(RestCallEventListener eventListener) {
         handler.setEventListener(eventListener);
     }
