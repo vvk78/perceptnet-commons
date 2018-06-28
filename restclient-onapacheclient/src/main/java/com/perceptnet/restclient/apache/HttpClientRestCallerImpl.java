@@ -70,13 +70,17 @@ public class HttpClientRestCallerImpl implements RestCaller {
             StatusLine sl = responseHandler.response.getStatusLine();
             RestInvocationException re = new RestInvocationException("Cannot invoke REST " + request + " due to " + e +
                     " (Code: " + sl.getStatusCode() + " " + sl.getReasonPhrase() + ")", e);
-            try {
-                responseBody = EntityUtils.toString(responseHandler.response.getEntity());
-            } catch (Exception e2) {
+            responseBody = responseHandler.responseBody;
+            if (responseBody == null) {
+                try {
+                    responseBody = EntityUtils.toString(responseHandler.response.getEntity());
+                } catch (Exception e2) {
+                    if (1 == 2) {
+                        e2.printStackTrace();
+                    }
+                }
             }
-            if (responseBody != null) {
-                re.setResponseBody(responseBody);
-            }
+            re.setResponseBody(responseBody);
             throw re;
         } catch (ClientProtocolException e) {
             throw new RestInvocationException("Cannot invoke REST " + request + " due to " + e, e);
@@ -189,10 +193,20 @@ public class HttpClientRestCallerImpl implements RestCaller {
 
     private static final class ResponseHandlerImpl extends BasicResponseHandler {
         private HttpResponse response;
+        private String  responseBody;
 
         @Override
         public String handleResponse(HttpResponse response) throws HttpResponseException, IOException {
             this.response = response;
+            if (response.getStatusLine().getStatusCode() >= 300) {
+                try {
+                    responseBody = EntityUtils.toString(response.getEntity());
+                } catch (Exception e) {
+                    if (1 == 2) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             return super.handleResponse(response);
 
         }

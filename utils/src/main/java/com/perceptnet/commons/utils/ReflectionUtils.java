@@ -85,10 +85,12 @@ public class ReflectionUtils {
         if (method.getParameterTypes().length != 1) {
             return false;
         }
-        Class<?> rt = method.getReturnType();
-        if (!void.class.equals(rt)) {
-            return false;
-        }
+
+        //return type may be used in 'setters chain' pattern
+//        Class<?> rt = method.getReturnType();
+//        if (!void.class.equals(rt)) {
+//            return false;
+//        }
 
 
         if (method.getName().startsWith("set")
