@@ -8,7 +8,7 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>server</artifactId>
+    <artifactId>server-api</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
