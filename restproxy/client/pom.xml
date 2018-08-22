@@ -19,7 +19,7 @@
         <!--</dependency>-->
         <dependency>
             <groupId>com.perceptnet.commons.restproxy</groupId>
-            <artifactId>api</artifactId>
+            <artifactId>server-api</artifactId>
             <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <!--<dependency>-->

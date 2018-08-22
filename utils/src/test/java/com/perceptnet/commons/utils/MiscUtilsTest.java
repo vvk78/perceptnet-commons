@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.perceptnet.commons.utils.MiscUtils.split;
+import static com.perceptnet.commons.utils.MiscUtils.*;
 import static org.testng.Assert.assertEquals;
 
 public class MiscUtilsTest {
@@ -32,5 +32,14 @@ public class MiscUtilsTest {
     private void assertSplitPieceSizes(Pair<List<Integer>, List<Integer>> split, int expectedHeadSize, int expectedTailSize) {
         assertEquals(split.getFirst().size(), expectedHeadSize, "Unexpected list split head size");
         assertEquals(split.getSecond().size(), expectedTailSize, "Unexpected list split tail size");
+    }
+
+    @Test
+    public void testByteToLength() throws Exception {
+        assertEquals(byteToLength(lengthToByte(234)), 234);
+        assertEquals(byteToLength(lengthToByte(14)), 14);
+        assertEquals(byteToLength(lengthToByte(127)), 127);
+        assertEquals(byteToLength(lengthToByte(0)), 0);
+        assertEquals(byteToLength(lengthToByte(255)), 255);
     }
 }

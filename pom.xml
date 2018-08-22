@@ -15,6 +15,7 @@
         <module>resource-str</module>
         <module>json-io</module>
         <module>utils</module>
+        <module>timeseries</module>
         <module>utilsj18plus</module>
         <module>reflection</module>
         <module>beanprocessing</module>

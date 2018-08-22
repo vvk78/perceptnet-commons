@@ -166,4 +166,23 @@ public class MiscUtils {
         }
     }
 
+    public static int byteToLength(byte b) {
+        if (b >= 0) {
+            return b;
+        } else {
+            return -b + Byte.MAX_VALUE;
+        }
+    }
+
+    public static byte lengthToByte(int length) {
+        if (length > 255 || length < 0) {
+            throw new IllegalArgumentException("Cannot translate to byte, too big length: " + length);
+        }
+        if (length <= Byte.MAX_VALUE) {
+            return (byte) length;
+        } else {
+            return (byte)(-1 * (length - Byte.MAX_VALUE));
+        }
+    }
+
 }
