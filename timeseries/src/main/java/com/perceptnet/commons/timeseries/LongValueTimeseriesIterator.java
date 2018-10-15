@@ -28,29 +28,61 @@ public class LongValueTimeseriesIterator {
     private long nextFileOffset;
 
     private boolean exhausted;
+    private PositionInfo precedingPi;
 
-    LongValueTimeseriesIterator(LongValueTimeseriesFile f) {
-        this(f, null, null);
+    private static final LongValueTimeseriesIterator EXHAUSTED = new LongValueTimeseriesIterator();
+
+    static LongValueTimeseriesIterator exhausted() {
+        return EXHAUSTED;
     }
 
-    LongValueTimeseriesIterator(LongValueTimeseriesFile f, Long fromTs, Long toTs) {
+    /**
+     * Exhausted iterator, will never return anything
+     */
+    private LongValueTimeseriesIterator() {
+        this.exhausted = true;
+        this.buff = null;
+        this.entryBuff = null;
+        this.f = null;
+        this.raf = null;
+        this.channel = null;
+        this.fromTs = null;
+        this.toTs = null;
+        this.entrySize = 0;
+    }
+
+    LongValueTimeseriesIterator(LongValueTimeseriesFile f) {
+        this(f, null, LongValueTimeseriesFile.HEAD_SIZE, null, null);
+    }
+
+    LongValueTimeseriesIterator(LongValueTimeseriesFile f, PositionInfo precedingPi, long nextFileOffset, Long fromTs, Long toTs) {
+        this(f, precedingPi, nextFileOffset, fromTs, toTs, 2048);
+    }
+
+    LongValueTimeseriesIterator(LongValueTimeseriesFile f, PositionInfo precedingPi, long nextFileOffset, Long fromTs, Long toTs, int internalBufferSize) {
         this.f = f;
         this.raf = f.getRaf();
         this.channel = f.getChannel();
         this.entrySize = f.getHeader().getItemDataBlockSize();
-        int blocks = 1024 / entrySize;
-        if (blocks <= 0) {
-            throw new IllegalStateException("Too big blocks");
+        this.precedingPi = precedingPi;
+        this.nextFileOffset = nextFileOffset;
+        int entriesInBuff = internalBufferSize / entrySize;
+        if (entriesInBuff <= 0) {
+            throw new IllegalStateException("Too big entries for this size of internal buffer (" + internalBufferSize + ")");
         }
-        this.buff = ByteBuffer.allocate(blocks * entrySize);
+        this.buff = ByteBuffer.allocate(entriesInBuff * entrySize);
         this.entryBuff = ByteBuffer.allocate(entrySize);
         this.curBuffActualSize = 0;
 
         this.fromTs = fromTs;
         this.toTs = toTs;
-
-        this.nextFileOffset = -1;
     }
+
+    public int read(long[] times, long[] values) {
+        return read(times, values, 0, Math.min(times.length, values.length));
+    }
+
+
 
     /**
      * Reads required amount of entries (provided there is enough in the file) into provided buffers
@@ -77,22 +109,21 @@ public class LongValueTimeseriesIterator {
                 times[i] = ts;
                 values[i] = entryBuff.getLong();
                 count++;
+            } else {
+                break;
             }
         }
         return count;
     }
 
     private boolean feedNextEntry() {
-        return doFeedNextEntry(true);
-    }
-
-    private boolean doFeedNextEntry(boolean mayFeedBuffer) {
-        entryBuff.position(0);
-        if (buff.position() + entrySize < curBuffActualSize) {
-            if (!mayFeedBuffer || !feedNextBuffer()) {
+        if (buff.position() + entrySize > curBuffActualSize) {
+            if (!feedNextBuffer()) {
                 return false;
             }
-            return doFeedNextEntry(false);
+            if (buff.position() + entrySize > curBuffActualSize) {
+                return false;
+            }
         }
         buff.get(entryBuff.array());
         entryBuff.position(0);
@@ -100,15 +131,22 @@ public class LongValueTimeseriesIterator {
     }
 
     private boolean feedNextBuffer() {
-        try (FileLock lock = channel.lock(nextFileOffset, nextFileOffset + buff.capacity(), false)) {
-            channel.position(nextFileOffset);
-            buff.position(0);
+        f.lock();
+        try (FileLock lock = channel.lock(nextFileOffset, nextFileOffset + buff.capacity(), true)) {
+            raf.seek(nextFileOffset);
             int left = relocateCurrBufferRemainsIfNeeded();
-            curBuffActualSize = channel.read(buff, left) + left;
+            byte[] ba = buff.array();
+            curBuffActualSize = raf.read(ba, left, ba.length - left) + left;
+            if (curBuffActualSize <= 0) {
+                return false;
+            }
             buff.position(0);
+            nextFileOffset = nextFileOffset + curBuffActualSize;
             return curBuffActualSize > 0;
         } catch (IOException e) {
             throw new RuntimeException("" + e, e);
+        } finally {
+            f.unlock();
         }
     }
 
@@ -130,4 +168,19 @@ public class LongValueTimeseriesIterator {
         }
         return left;
     }
+
+    /**
+     * Basically this method is used for internal needs. It prepares iterator for reading starting at new file offset
+     *
+     * @param nextFileOffset
+     */
+    void move(long nextFileOffset) {
+        this.buff.position(0);
+        this.entryBuff.position(0);
+        this.nextFileOffset = nextFileOffset;
+        this.curBuffActualSize = 0;
+        this.exhausted = false;
+    }
+
+
 }
