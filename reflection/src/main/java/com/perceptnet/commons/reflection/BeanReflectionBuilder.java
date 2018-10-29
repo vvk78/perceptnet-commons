@@ -36,7 +36,6 @@ public class BeanReflectionBuilder {
 
     private static final Logger log = LoggerFactory.getLogger(BeanReflectionBuilder.class);
 
-
     private boolean processSetters = true;
     private boolean processGetters = true;
     private BeanReflection beanReflection;
@@ -50,7 +49,7 @@ public class BeanReflectionBuilder {
         if (beanReflection != null) {
             throw new IllegalStateException("Bean reflection builder has been used already.");
         }
-
+        boolean skipInterfaceMethods = !beanClass.isInterface();
         beanReflection = new BeanReflection(beanClass);
 
         Method[] methods = beanClass.getMethods();
@@ -60,7 +59,7 @@ public class BeanReflectionBuilder {
             //Must somehow be related with generic interface Identified implementation?
             if (method.isSynthetic()
                     || method.getDeclaringClass().equals(Object.class)
-                    || method.getDeclaringClass().isInterface()
+                    || (skipInterfaceMethods && method.getDeclaringClass().isInterface())
                     || method.getDeclaringClass().isAnnotation()) {
                 continue; //do not process methods inherited from object, declared in interfaces or in annotations
             }

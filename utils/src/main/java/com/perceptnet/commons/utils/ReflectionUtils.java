@@ -11,7 +11,6 @@
 
 package com.perceptnet.commons.utils;
 
-import java.beans.Introspector;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -43,14 +42,27 @@ public class ReflectionUtils {
 
     public static String getFieldName(Method method) {
         if (method.getName().startsWith("is")) {
-            return Introspector.decapitalize(StringUtils.getTail(method.getName(), "is"));
+            return decapitalizeIfNeeded(StringUtils.getTail(method.getName(), "is"));
         } else if (method.getName().startsWith("get")) {
-            return Introspector.decapitalize(StringUtils.getTail(method.getName(), "get"));
+            return decapitalizeIfNeeded(StringUtils.getTail(method.getName(), "get"));
         } else if (method.getName().startsWith("set")) {
-            return Introspector.decapitalize(StringUtils.getTail(method.getName(), "set"));
+            return decapitalizeIfNeeded(StringUtils.getTail(method.getName(), "set"));
         } else {
             throw new IllegalArgumentException("Does not seem to be getter or setter: " + method);
         }
+    }
+
+    private static String decapitalizeIfNeeded(String name) {
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
+                Character.isUpperCase(name.charAt(0))){
+            return name;
+        }
+        char chars[] = name.toCharArray();
+        chars[0] = Character.toLowerCase(chars[0]);
+        return new String(chars);
     }
 
     public static boolean isGetter(Method method) {
