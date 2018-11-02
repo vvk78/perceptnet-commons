@@ -3,3 +3,5 @@
 target
 /abstractions/*.versionsBackup
 *.versionsBackup
+/timeseries/*.tsdata
+/timeseries/unittest
