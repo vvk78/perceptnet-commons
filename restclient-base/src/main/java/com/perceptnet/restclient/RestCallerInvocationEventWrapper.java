@@ -6,19 +6,36 @@ package com.perceptnet.restclient;
  * created by vkorovkin (vkorovkin@gmail.com) on 13.02.2018
  */
 public class RestCallerInvocationEventWrapper {
+
     protected RestCallEventListener eventListener;
     protected RestCaller restCaller;
+
+    private final boolean trackCallMilestonesMs;
+    private volatile long lastCallAttemptMs;
+    private volatile long lastCallSuccessMs;
+    private volatile long lastCallFailureMs;
 
     public RestCallerInvocationEventWrapper(RestCaller restCaller) {
         this(restCaller, null);
     }
 
     public RestCallerInvocationEventWrapper(RestCaller restCaller, RestCallEventListener eventListener) {
+        this(restCaller, null, false);
         if (restCaller == null) {
             throw new NullPointerException("RestCaller is null");
         }
         this.restCaller = restCaller;
     }
+
+    public RestCallerInvocationEventWrapper(RestCaller restCaller, RestCallEventListener eventListener, boolean trackCallMilestonesMs) {
+        if (restCaller == null) {
+            throw new NullPointerException("RestCaller is null");
+        }
+        this.restCaller = restCaller;
+        this.trackCallMilestonesMs = trackCallMilestonesMs;
+    }
+
+
 
     public RestCallEventListener getEventListener() {
         return eventListener;
@@ -36,8 +53,18 @@ public class RestCallerInvocationEventWrapper {
         String rawResponse;
         fireBeforeCallEvent();
         try {
+            if (trackCallMilestonesMs) {
+                lastCallAttemptMs = System.currentTimeMillis();
+            }
+            //--- Call:
             rawResponse = restCaller.invokeRest(request);
+            if (trackCallMilestonesMs) {
+                lastCallSuccessMs = System.currentTimeMillis();
+            }
         } catch (Throwable t) {
+            if (trackCallMilestonesMs) {
+                lastCallFailureMs = System.currentTimeMillis();
+            }
             fireAfterCallErrorEvent(t);
             throw t;
         }
@@ -49,8 +76,18 @@ public class RestCallerInvocationEventWrapper {
         byte[] rawResponse;
         fireBeforeCallEvent();
         try {
+            if (trackCallMilestonesMs) {
+                lastCallAttemptMs = System.currentTimeMillis();
+            }
+            //--- Call:
             rawResponse = restCaller.invokeRestForBytes(request);
+            if (trackCallMilestonesMs) {
+                lastCallSuccessMs = System.currentTimeMillis();
+            }
         } catch (Throwable t) {
+            if (trackCallMilestonesMs) {
+                lastCallFailureMs = System.currentTimeMillis();
+            }
             fireAfterCallErrorEvent(t);
             throw t;
         }
@@ -91,5 +128,19 @@ public class RestCallerInvocationEventWrapper {
         }
     }
 
+    public boolean isTrackCallMilestonesMs() {
+        return trackCallMilestonesMs;
+    }
 
+    public long getLastCallAttemptMs() {
+        return lastCallAttemptMs;
+    }
+
+    public long getLastCallSuccessMs() {
+        return lastCallSuccessMs;
+    }
+
+    public long getLastCallFailureMs() {
+        return lastCallFailureMs;
+    }
 }
