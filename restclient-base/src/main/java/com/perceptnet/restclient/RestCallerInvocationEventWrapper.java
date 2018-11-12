@@ -35,8 +35,6 @@ public class RestCallerInvocationEventWrapper {
         this.trackCallMilestonesMs = trackCallMilestonesMs;
     }
 
-
-
     public RestCallEventListener getEventListener() {
         return eventListener;
     }
