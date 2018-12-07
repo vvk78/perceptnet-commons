@@ -14,8 +14,8 @@ import static com.perceptnet.commons.utils.MiscUtils.putIfAbsent;
 
 /**
  * Utility class to work with text fragments in text resources. Text resources is considered to be split into pieces divided by a separator
- * always placed on a new single line. Separator by default starts with '---' prefix followed by name, but this is configurable. After
- * separator goes the text fragment down till the next fragment separator.
+ * always placed on a new single line. Separator by default starts with '---' prefix followed by name, but this is configurable. After a
+ * separator a next text fragment goes down to a next fragment separator.
  *
  * Designed to be used in tests.
  *
