@@ -27,8 +27,10 @@ import java.util.Collection;
 /**
  * Created by vkorovkin on 22.03.15.
  */
-public class BeanConverter extends BaseConversionProcessor {
-    private static final Logger log = LoggerFactory.getLogger(BeanConverter.class);
+public class BeanConverter<SELF extends BeanConverter> extends BaseConversionProcessor {
+    protected static final Logger log = LoggerFactory.getLogger(BeanConverter.class);
+
+    private boolean processStrSrcObjDestRefs = true;
 
     public BeanConverter(ConversionContext ctx) {
         super(ctx);
@@ -39,6 +41,11 @@ public class BeanConverter extends BaseConversionProcessor {
         getCtx().setRootNode(srcObj, destObj);
         doProcess();
         return destObj;
+    }
+
+    public SELF setProcessStrSrcObjDestRefs(boolean processStrSrcObjDestRefs) {
+        this.processStrSrcObjDestRefs = processStrSrcObjDestRefs;
+        return (SELF) this;
     }
 
     protected void doProcess() {
@@ -62,14 +69,27 @@ public class BeanConverter extends BaseConversionProcessor {
             }
         }
 
+        beforeReferencesProcessing();
         processReferences();
-        processStringSrcRefDestFields();
+        if (processStrSrcObjDestRefs) {
+            processStringSrcRefDestFields();
+        }
+
+        beforeCollectionsProcessing();
         processCollections();
 
         afterNodeSuccessfullyProcessed();
     }
 
     protected void afterNodeSuccessfullyProcessed() {
+        //to be overriden in decendants
+    }
+
+    protected void beforeReferencesProcessing() {
+        //to be overriden in decendants
+    }
+
+    protected void beforeCollectionsProcessing() {
         //to be overriden in decendants
     }
 
@@ -93,7 +113,7 @@ public class BeanConverter extends BaseConversionProcessor {
         }
         if (srcObj instanceof Identified) {
             Object srcId = ((Identified) srcObj).getId();
-            BeanKey destKey = new BeanKey(srcId, destClass);
+            BeanKey destKey = new BeanKey(srcId != null ? srcId : srcObj, destClass);
             return getCtx().getResolvedDestObjects().get(destKey);
         }
 
@@ -282,7 +302,7 @@ public class BeanConverter extends BaseConversionProcessor {
         }
     }
 
-    private void processChildObjectsCollection(FieldReflection destField, FieldReflection srcField) {
+    protected void processChildObjectsCollection(FieldReflection destField, FieldReflection srcField) {
         Collection srcItems = (Collection) srcField.getValue(getSource());
         Collection destItems = (Collection) destField.getValue(getDest());
         if (srcItems == null) {

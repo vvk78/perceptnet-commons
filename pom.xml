@@ -172,17 +172,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>pr-internal</id>
-            <!--<name>Paragon Internal Repository</name>-->
-            <url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>
-        </repository>
-        <snapshotRepository>
-            <id>pr-internal-snapshots</id>
-            <!--<name>Your Snapshot Repository</name>-->
-            <url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>pr-internal</id>-->
+            <!--&lt;!&ndash;<name>Paragon Internal Repository</name>&ndash;&gt;-->
+            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>-->
+        <!--</repository>-->
+        <!--<snapshotRepository>-->
+            <!--<id>pr-internal-snapshots</id>-->
+            <!--&lt;!&ndash;<name>Your Snapshot Repository</name>&ndash;&gt;-->
+            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>-->
+        <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
 
 </project>

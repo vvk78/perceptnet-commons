@@ -24,7 +24,7 @@ public class BeanConverterTest {
     private ReflectionProvider reflectionProvider = new BeanReflectionProviderCachingImpl();
 
     private ConversionContext ctx;
-    private BeanConverter converter;
+    private BeanConverter<?> converter;
 
     private Map<Long, AuthorDo> data = new HashMap<>();
 

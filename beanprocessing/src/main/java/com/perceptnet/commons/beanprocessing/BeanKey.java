@@ -15,7 +15,7 @@ public class BeanKey {
 
     public BeanKey(Object id, Class beanClass) {
         if (id == null) {
-            throw new NullPointerException("id is null");
+            throw new NullPointerException("id is null (" + beanClass.getSimpleName() + ")");
         }
         if (beanClass == null) {
             throw new NullPointerException("beanClass is null");

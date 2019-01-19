@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by VKorovkin on 16.03.2015.
@@ -51,7 +52,7 @@ public class FieldReflection {
     private boolean finalized;
 
     private Map<Class<? extends Annotation>, Annotation> annotations = new HashMap<>();
-    private Map<String, Object> extendedAttributes = new HashMap<>();
+    private Map extendedAttributes = new ConcurrentHashMap<>(2);
 
 
     public static FieldReflection createFromGetter(String fieldName, Method getter) {
@@ -214,14 +215,14 @@ public class FieldReflection {
         return declaringClass.getSimpleName() + "." + fieldName;
     }
 
-    public Map<String, Object> getExtendedAttributes() {
+    public Map getExtendedAttributes() {
         return extendedAttributes;
     }
 
     void finalizeAfterBuild() {
         finalized = true;
-        annotations = Collections.unmodifiableMap(annotations);
-        extendedAttributes = Collections.unmodifiableMap(extendedAttributes);
+        annotations = annotations.isEmpty() ? Collections.EMPTY_MAP : Collections.unmodifiableMap(annotations);
+        //extendedAttributes = extendedAttributes.isEmpty() ? Collections.EMPTY_MAP : Collections.unmodifiableMap(extendedAttributes);
     }
 
     void assertNotFinalized() {

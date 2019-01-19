@@ -11,12 +11,12 @@
 
 package com.perceptnet.commons.utils;
 
+import com.perceptnet.abstractions.Identified;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Created by VKorovkin on 15.05.2015.
@@ -77,4 +77,12 @@ public class MapUtils {
         }
         return res;
     }
+
+    public static<ID, IDD extends Identified<ID>> Map<ID, IDD> mapById(Collection<IDD> items, Map map) {
+        for (Object item : items) {
+            map.put(((Identified) item).getId(), item);
+        }
+        return map;
+    }
+
 }
