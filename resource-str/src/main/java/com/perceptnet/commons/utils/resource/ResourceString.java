@@ -11,13 +11,14 @@
 package com.perceptnet.commons.utils.resource;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author VKorovkin
  */
 public final class ResourceString implements Serializable, Comparable {
 
-    private final String resourceKey;
+    private final String[] resourceKeys;
     private final String defaultValue;
 
 
@@ -26,17 +27,40 @@ public final class ResourceString implements Serializable, Comparable {
     }
 
     public ResourceString(String resourceKey, String defaultValue) {
-        if (resourceKey == null) {
-            throw new NullPointerException("resourceKey is null");
+        this(new String[]{resourceKey}, defaultValue);
+    }
+
+    public ResourceString(String primaryResourceKey, String secondaryResourceKey, String defaultValue) {
+        this(new String[]{primaryResourceKey, secondaryResourceKey}, defaultValue);
+    }
+
+    public ResourceString(String[] resourceKeys, String defaultValue) {
+        if (resourceKeys == null) {
+            throw new NullPointerException("ResourceKeys is null");
         }
-        this.resourceKey = resourceKey;
+        if (resourceKeys.length == 0) {
+            throw new NullPointerException("ResourceKeys is empty");
+        }
+        for (String resourceKey : resourceKeys) {
+            if (resourceKey == null) {
+                throw new NullPointerException("ResourceKey is null");
+            }
+        }
+        this.resourceKeys = resourceKeys;
         this.defaultValue = defaultValue;
     }
 
     @Override
     public String toString() {
-        String value = ResourceManagerProvider.get().getResourceString(resourceKey);
-        return value != null ? value : defaultValue;
+        for (int i = 0; i < resourceKeys.length; i++) {
+            String resourceKey = resourceKeys[i];
+            String value = ResourceManagerProvider.get().getResourceString(resourceKey);
+            if (value != null) {
+                return value;
+            }
+        }
+
+        return defaultValue;
     }
 
     /**
@@ -47,7 +71,7 @@ public final class ResourceString implements Serializable, Comparable {
     }
 
     public String getResourceKey() {
-        return resourceKey;
+        return resourceKeys[0];
     }
 
     public String getDefaultValue() {
@@ -62,7 +86,7 @@ public final class ResourceString implements Serializable, Comparable {
 
         ResourceString that = (ResourceString) o;
 
-        return (resourceKey.equals(that.resourceKey));
+        return (Arrays.equals(resourceKeys, that.resourceKeys));
     }
 
     @Override
@@ -92,6 +116,6 @@ public final class ResourceString implements Serializable, Comparable {
     @Override
     public int hashCode() {
         //auto generated method
-        return resourceKey.hashCode();
+        return Arrays.hashCode(resourceKeys);
     }
 }
