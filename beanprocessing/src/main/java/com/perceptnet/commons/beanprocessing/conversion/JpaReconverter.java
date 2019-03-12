@@ -16,7 +16,9 @@ import java.util.Map;
  * <p>
  * created by vkorovkin (vkorovkin@gmail.com) on 17.01.2019
  */
+
 public class JpaReconverter<SELF extends JpaReconverter, ID> extends BeanConverter<SELF> {
+
 
     protected static final String EXTENDED_ATTRIBUTE_BACK_LINK = "ea.bl";
 
