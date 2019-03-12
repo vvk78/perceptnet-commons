@@ -1,4 +1,4 @@
-package com.perceptnet.commons.beanprocessing.conversion;
+package com.perceptnet.abstractions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
