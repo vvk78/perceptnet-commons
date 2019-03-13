@@ -52,9 +52,10 @@ public final class ResourceString implements Serializable, Comparable {
 
     @Override
     public String toString() {
+        ResourceManager rm = ResourceManagerProvider.get();
         for (int i = 0; i < resourceKeys.length; i++) {
             String resourceKey = resourceKeys[i];
-            String value = ResourceManagerProvider.get().getResourceString(resourceKey);
+            String value = rm.getResourceString(resourceKey);
             if (value != null) {
                 return value;
             }
