@@ -46,6 +46,45 @@
                 <artifactId>json-io</artifactId>
                 <version>4.10.0</version>
             </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>javax.persistence-api</artifactId>
+                <version>2.2</version>
+            </dependency>
+
+            <!-- logging -->
+            <!--A common choice might be to bridge Spring to SLF4J, and then provide explicit binding from SLF4J to Log4J.
+              4 dependencies (and exclude the existing commons-logging from spring)
+              the bridge, theSLF4J API, the binding to Log4J, and the Log4J implementation itself. -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>6.1.0</version>
+            </dependency>
+
             <!-- test dependencies -->
             <dependency>
                 <groupId>org.testng</groupId>
@@ -53,8 +92,305 @@
                 <version>6.8.21</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- spring dependencies -->
+            <dependency>
+                <groupId>com.lateral-thoughts</groupId>
+                <artifactId>spring-liquibase-extensions</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-rabbit</artifactId>
+                <version>1.4.6.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-websocket</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-hibernate4</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.1.3.jre7</version>
+            </dependency>
+
+
+            <!--<dependency>-->
+            <!--<groupId>org.postgresql</groupId>-->
+            <!--<artifactId>postgresql</artifactId>-->
+            <!--<version>${postgres.version}</version>-->
+            <!--<scope>runtime</scope>-->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>2.4.5</version>
+            </dependency>
+
+            <!-- looks like appache log dependency is needed with test scope make spring-test dependency work -->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.perceptnet.tools</groupId>
+                <artifactId>codegen-restapi-spring</artifactId>
+                <version>${perceptnet-tools.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.perceptnet.tools</groupId>
+                <artifactId>codegen-commons</artifactId>
+                <version>${perceptnet-tools.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>reflection</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>abstractions</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>beanprocessing</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>restclient-base-dto</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>restclient-base</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>restclient-onapacheclient</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>restclient-conv-onjackson</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>utils</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>resource-str</artifactId>
+                <version>${perceptnet-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perceptnet.commons</groupId>
+                <artifactId>tests</artifactId>
+                <version>${perceptnet-commons.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>2.1.3.RELEASE</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
+
 
     <dependencies>
         <dependency>
@@ -170,19 +506,40 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <aspectj.version>1.9.2</aspectj.version>
+        <!--<spring.version>4.1.9.RELEASE</spring.version>-->
+        <spring.version>5.1.3.RELEASE</spring.version>
+        <!--<spring-security.version>4.0.2.RELEASE</spring-security.version>-->
+        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+
+        <slf4j.version>1.7.21</slf4j.version>
+        <log4j2.version>2.5</log4j2.version>
+
+        <!--<hibernate.version>3.6.10.Final</hibernate.version>-->
+        <!--<hibernate.version>4.3.11.Final</hibernate.version>-->
+        <!--<hibernate.version>5.2.10.Final</hibernate.version>-->
+        <hibernate.version>5.3.7.Final</hibernate.version>
+        <!--<hibernate.version>5.4.0.Final</hibernate.version>-->
+
+        <jackson.version>2.9.7</jackson.version>
+
+        <postgres.driver.version>42.1.3.jre7</postgres.driver.version>
+        <apache.commons.version>2.4</apache.commons.version>
+        <poi.version>3.14</poi.version>
     </properties>
 
     <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>pr-internal</id>-->
-            <!--&lt;!&ndash;<name>Paragon Internal Repository</name>&ndash;&gt;-->
-            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>pr-internal-snapshots</id>-->
-            <!--&lt;!&ndash;<name>Your Snapshot Repository</name>&ndash;&gt;-->
-            <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>-->
-        <!--</snapshotRepository>-->
+    <!--<repository>-->
+    <!--<id>pr-internal</id>-->
+    <!--&lt;!&ndash;<name>Paragon Internal Repository</name>&ndash;&gt;-->
+    <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>pr-internal-snapshots</id>-->
+    <!--&lt;!&ndash;<name>Your Snapshot Repository</name>&ndash;&gt;-->
+    <!--<url>http://maven2.paragon-software.com/nexus/content/repositories/internal_snapshots</url>-->
+    <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
 
 </project>

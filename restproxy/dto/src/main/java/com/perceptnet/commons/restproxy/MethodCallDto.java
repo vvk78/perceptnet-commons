@@ -11,7 +11,7 @@ public class MethodCallDto {
     private String methodName;
     private String methodSignature;
 
-    private List methodArguments = new ArrayList<>();
+    private List methodArguments = new ArrayList<>(5);
 
     public MethodCallDto(String serviceName, String methodName, String methodSignature) {
         this.serviceName = serviceName;
