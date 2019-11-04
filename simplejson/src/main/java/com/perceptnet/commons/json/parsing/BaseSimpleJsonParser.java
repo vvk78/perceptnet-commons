@@ -99,7 +99,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
             }
         }
 
-        out("startObject " + className);
+        out("startObject " + className +" [ln: " + ln + ", col: " + col +"]");
         if (skipLevel > 0) {
             incSkipLevel();
             return;
@@ -314,27 +314,23 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
             Class expectedClass = null;
             if (curField() != null) {
                 expectedClass = curField().getFieldType();
-            } else {
-                ObjectInfo expectedItemClassInfo = nep().pollNextExpectedCollectionItemInfo();
-                if (expectedItemClassInfo != null) {
-                    expectedClass = expectedItemClassInfo.getClazz();
-                }
             }
 
-
             if (expectedClass != null) {
-                if (Long.class.equals(expectedClass)) {
+                if (Long.class.equals(expectedClass) || long.class.equals(expectedClass)) {
                     nep().setLastValue(val);
-                } else if (Integer.class.equals(expectedClass)) {
+                } else if (Integer.class.equals(expectedClass) || int.class.equals(expectedClass)) {
                     nep().setLastValue(val.intValue());
-                } else if (Short.class.equals(expectedClass)) {
+                } else if (Short.class.equals(expectedClass) || short.class.equals(expectedClass)) {
                     nep().setLastValue(val.shortValue());
-                } else if (Byte.class.equals(val.shortValue())) {
+                } else if (Byte.class.equals(val.shortValue()) || byte.class.equals(expectedClass) ) {
                     nep().setLastValue(val.byteValue());
+                } else {
+                    nep().setLastValue(val.longValue());
                 }
             } else {
                 //Though it is risky, lets make an assumption it is an integer... (or may be better Long?)
-                nep().setLastValue(val.intValue());
+                nep().setLastValue(val.longValue());
             }
         }
         out("valueInteger " + img);
@@ -344,7 +340,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
         if (skipLevel > 0) {
             return;
         }
-        nep().setLastValue(Long.valueOf(img));
+        nep().setLastValue(Double.valueOf(img));
         out("valueDecimal");
     }
 
@@ -439,7 +435,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
     }
 
     private void out(String val) {
-        //System.out.println(val);
+        System.out.println(val);
     }
 
 }

@@ -35,11 +35,15 @@ public class SimpleJsonParserTest {
                 new ObjectInfoImpl(Long.class),
                 new ObjectInfoImpl(Integer.class),
                 new ObjectInfoImpl(Boolean.class),
-                new ObjectInfoImpl(Float.class),
+                new ObjectInfoImpl(Double.class),
                 new ObjectInfoImpl(TemplatesGroupDto.class))));
         p.any();
         List result = p.getParsedTopLevelObjects();
         System.out.println("Parsing result:\n" + result );
+
+        List list = (List) result.get(0);
+        TemplatesGroupDto g = (TemplatesGroupDto) list.get(6);
+        System.out.println("Items in group: " + g.getItems().size());
 
 //        Object readValue = reader.readValue(testJson);
 //        System.out.println("Read value: " + readValue);
