@@ -14,6 +14,7 @@
         <module>commons-api</module>
         <module>resource-str</module>
         <module>json-io</module>
+        <module>simplejson</module>
         <module>utils</module>
         <module>timeseries</module>
         <module>utilsj18plus</module>
@@ -285,57 +286,6 @@
                 <scope>provided</scope>
             </dependency>
 
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>reflection</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>abstractions</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>beanprocessing</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>restclient-base-dto</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>restclient-base</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>restclient-onapacheclient</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>restclient-conv-onjackson</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>utils</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>resource-str</artifactId>
-                <version>${perceptnet-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perceptnet.commons</groupId>
-                <artifactId>tests</artifactId>
-                <version>${perceptnet-commons.version}</version>
-                <scope>test</scope>
-            </dependency>
 
             <dependency>
                 <groupId>org.springframework.data</groupId>

@@ -1,0 +1,32 @@
+[
+  "Vasia Pupkin",
+  1572780275465,
+  1001,
+  2019,
+  true,
+  -0.001,
+  {
+    "id": 1,
+    "groupName": "Group A",
+    "items": [
+      {
+        "id": null,
+        "name": null,
+        "code": "Code1",
+        "description": "This is a template 1 blah",
+        "previewImageUrl": "n/a",
+        "rank": 12,
+        "createdAt": 1572780275468
+      },
+      {
+        "id": 1,
+        "name": null,
+        "code": "Code2",
+        "description": "This is a template 2 blah-blah",
+        "previewImageUrl": "n/a",
+        "rank": 2,
+        "createdAt": 1572780275468
+      }
+    ]
+  }
+]

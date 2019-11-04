@@ -15,7 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by vkorovkin on 17.03.15.
@@ -79,7 +89,7 @@ public class ClassUtils {
 
     public static <T> T createUnsafely(Class<T> aClass) {
         try {
-            return aClass.newInstance();
+            return createInstance(aClass);
         } catch (Exception e) {
             throw new RuntimeException("Cannot create '" + aClass.getName() + "' due to " + e, e);
         }
@@ -87,10 +97,30 @@ public class ClassUtils {
 
     public static <T> T createSafely(Class<T> aClass) {
         try {
-            return aClass.newInstance();
+            return createInstance(aClass);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private static <T> T createInstance(Class<T> aClass) {
+        try {
+            T result;
+            if (aClass == SortedMap.class) {
+                return (T) new TreeMap<>();
+            } else if (aClass == Map.class) {
+                return (T) new HashMap();
+            } else if (aClass == SortedSet.class) {
+                return (T) new TreeSet();
+            } else if (aClass == Set.class) {
+                return (T) new HashSet();
+            } else if (aClass == Collection.class || aClass == List.class) {
+                return (T) new ArrayList();
+            }
+            return aClass.newInstance();
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new IllegalStateException("Cannot instantiate '" + aClass.getName() + "' " + e, e);
         }
     }
 
