@@ -8,7 +8,7 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>server-impl</artifactId>
+    <artifactId>service-registry</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -17,42 +17,13 @@
         <!--<artifactId>utils</artifactId>-->
         <!--<version>1.0-SNAPSHOT</version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>com.perceptnet.commons.restproxy</groupId>
-            <artifactId>dto</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.perceptnet.commons.restproxy</groupId>
-            <artifactId>service-registry</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.perceptnet.commons.restproxy</groupId>
-            <artifactId>server-api</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.perceptnet.commons</groupId>
-            <artifactId>reflection</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.perceptnet.commons</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>com.perceptnet.commons</groupId>
             <artifactId>simplejson</artifactId>
             <version>1.3.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>1.2</version>
-        </dependency>
-    
+
         <!--<dependency>-->
         <!--<groupId>org.apache.httpcomponents</groupId>-->
         <!--<artifactId>httpclient</artifactId>-->

@@ -14,6 +14,7 @@
         <module>server-api</module>
         <module>server-rest</module>
         <module>server-impl</module>
+        <module>service-registry</module>
     </modules>
 
     <groupId>com.perceptnet.commons.restproxy</groupId>
