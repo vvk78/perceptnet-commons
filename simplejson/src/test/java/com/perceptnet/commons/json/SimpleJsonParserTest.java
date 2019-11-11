@@ -10,6 +10,8 @@ import com.perceptnet.commons.reflection.ReflectionProvider;
 import com.perceptnet.commons.utils.ResourceUtils;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.*;
+
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,20 +31,30 @@ public class SimpleJsonParserTest {
         String testJson = ResourceUtils.resourceText("TestJsonA1.json");
         SimpleJsonParser p = new SimpleJsonParser(new StringReader(testJson));
         p.setReflectionProvider(rp);
-        p.setExpectedTopLevelItems(new ObjectInfoImpl(List.class).setCollectionItemsInfos(Arrays.asList(
+        List<ObjectInfoImpl> argTypesList = Arrays.asList(
                 new ObjectInfoImpl(String.class),
                 new ObjectInfoImpl(Date.class),
                 new ObjectInfoImpl(Long.class),
                 new ObjectInfoImpl(Integer.class),
                 new ObjectInfoImpl(Boolean.class),
                 new ObjectInfoImpl(Double.class),
-                new ObjectInfoImpl(TemplatesGroupDto.class))));
+                new ObjectInfoImpl(TemplatesGroupDto.class));
+        p.setExpectedTopLevelItems(new ObjectInfoImpl(List.class).setCollectionItemsInfos(argTypesList));
         p.any();
         List result = p.getParsedTopLevelObjects();
         System.out.println("Parsing result:\n" + result );
 
         List list = (List) result.get(0);
+        assertEquals(list.size(), argTypesList.size(), "Wrong number of items in parsing result");
+        for (int i = 0; i < argTypesList.size(); i++) {
+            Object parsedItem = list.get(i);
+            if (parsedItem == null) {
+                continue;
+            }
+            assertEquals(parsedItem.getClass(), argTypesList.get(i).getClazz(), "Not expected class of parsed item " + i);
+        }
         TemplatesGroupDto g = (TemplatesGroupDto) list.get(6);
+
         System.out.println("Items in group: " + g.getItems().size());
 
 //        Object readValue = reader.readValue(testJson);

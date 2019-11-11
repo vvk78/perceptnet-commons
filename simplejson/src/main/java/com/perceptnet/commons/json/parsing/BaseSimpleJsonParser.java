@@ -5,6 +5,7 @@ import com.perceptnet.commons.beanprocessing.BaseBeanProcessor;
 import com.perceptnet.commons.beanprocessing.ProcessingContext;
 import com.perceptnet.commons.reflection.FieldReflection;
 import com.perceptnet.commons.reflection.ReflectionProvider;
+import com.perceptnet.commons.utils.CastUtils;
 import com.perceptnet.commons.utils.ClassUtils;
 import com.perceptnet.commons.utils.ParseUtils;
 import com.perceptnet.commons.utils.StringEscapeUtils;
@@ -397,6 +398,10 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
             if (expectedItem == null) {
                 expectedItem = nep().pollNextExpectedCollectionItemInfo();
             }
+            if (expectedItem != null && element.getClass() != expectedItem.getClazz() &&
+                    !expectedItem.getClazz().isAssignableFrom(element.getClass())) {
+                element = CastUtils.castUnsafely(element, expectedItem.getClazz());
+            }
             c.add(element);
             out("element added");
         }
@@ -435,7 +440,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
     }
 
     private void out(String val) {
-        System.out.println(val);
+//        System.out.println(val);
     }
 
 }
