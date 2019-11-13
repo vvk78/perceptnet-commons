@@ -42,6 +42,9 @@ class RestRequestBuilder {
             String body = converter.format(arguments[d.getBodyArgumentIndex()]);
             //result.setRequestBody(translateArgument(arguments[d.getBodyArgumentIndex()]));
             result.setRequestBody(body);
+        } else if (d.getBodyArgumentIndex() == RestMethodDescription.ALL_ARG_LIST_AS_BODY) {
+            String body = converter.format(arguments);
+            result.setRequestBody(body);
         }
         return result;
     }

@@ -8,7 +8,7 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>server-impl-rest</artifactId>
+    <artifactId>server-rest</artifactId>
     <packaging>jar</packaging>
 
 

@@ -7,6 +7,8 @@ package com.perceptnet.restclient.dto;
  * created by vkorovkin (vkorovkin@gmail.com) on 27.11.2017
  */
 public class RestMethodDescription {
+    public static final int ALL_ARG_LIST_AS_BODY = -2;
+
     /**
      * Https method to be executed
      */
@@ -26,7 +28,9 @@ public class RestMethodDescription {
      */
     private int[] pathArgumentIndices;
     /**
-     * If an argument is to be passed as request body, this field keeps its index among method arguments and is -1 otherwise.
+     * If an argument is to be passed as request body, this field keeps its index among method arguments and is
+     * -1 if there is no body argument at all.
+     * -2 ({@link #ALL_ARG_LIST_AS_BODY}) if the whole list of method arguments is to be passed as request body
      */
     private int bodyArgumentIndex;
 
