@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perceptnet.restclient.MessageConverter;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 25.12.2017
@@ -19,9 +20,10 @@ public class JacksonMessageConverter implements MessageConverter {
     }
 
     @Override
-    public <T> T parse(Class<T> expectedType, String str) {
+    public <T> T parse(Type expectedType, String str) {
+        Class<T> expectedClass = (Class<T>) expectedType;
         try {
-            return (T) mapper.reader(expectedType).readValue(str);
+            return (T) mapper.reader(expectedClass).readValue(str);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

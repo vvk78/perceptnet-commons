@@ -1,7 +1,7 @@
 package com.perceptnet.commons.restproxy;
 
-import com.perceptnet.commons.json.parsing.ObjectInfo;
-import com.perceptnet.commons.json.parsing.ObjectInfoImpl;
+import com.perceptnet.commons.utils.SimpleTypeInfo;
+import com.perceptnet.commons.utils.SimpleTypeInfoImpl;
 import com.perceptnet.commons.json.parsing.ParseException;
 import com.perceptnet.commons.json.parsing.SimpleJsonParser;
 import com.perceptnet.commons.reflection.ReflectionProvider;
@@ -115,7 +115,7 @@ public class ServiceWebCaller implements SwcService {
                 return null;
             }
             SimpleJsonParser parser = tune(new SimpleJsonParser(new StringReader(requestBody)));
-            parser.setExpectedTopLevelItems(new ObjectInfoImpl(List.class).setCollectionItemsInfos(m.getParams()));
+            parser.setExpectedTopLevelItems(new SimpleTypeInfoImpl(List.class).setCollectionItemsInfos(m.getParams()));
             try {
                 parser.any();
                 if (parser.getParsedTopLevelObjects().isEmpty()) {
@@ -136,7 +136,7 @@ public class ServiceWebCaller implements SwcService {
 
             for (int i = 0; i < argPathPieces.size(); i++) {
                 String argPathPiece = argPathPieces.get(i);
-                ObjectInfo pd = m.getParams().get(i);
+                SimpleTypeInfo pd = m.getParams().get(i);
                 try {
                     result.add(pathArgParser.parsePathItem(pd, argPathPiece));
                 } catch (SwcArgParsingException e) {
@@ -155,7 +155,7 @@ public class ServiceWebCaller implements SwcService {
             List result = new ArrayList(argPathPieces.size());
             for (int i = 0; i < argPathPieces.size(); i++) {
                 String argPathPiece = argPathPieces.get(i);
-                ObjectInfo pd = m.getParams().get(i);
+                SimpleTypeInfo pd = m.getParams().get(i);
                 try {
                     result.add(pathArgParser.parsePathItem(pd, argPathPiece));
                 } catch (SwcArgParsingException e) {
@@ -167,7 +167,7 @@ public class ServiceWebCaller implements SwcService {
         }
     }
 
-    private List<Object> parseBody(List<ObjectInfo> pds, String requestBody) {
+    private List<Object> parseBody(List<SimpleTypeInfo> pds, String requestBody) {
         if (requestBody == null || requestBody.isEmpty()) {
             return Collections.emptyList();
         }
@@ -189,7 +189,7 @@ public class ServiceWebCaller implements SwcService {
         return parser;
     }
 
-    private Object parseBody(ObjectInfo pd, String requestBody) {
+    private Object parseBody(SimpleTypeInfo pd, String requestBody) {
         SimpleJsonParser parser = tune(new SimpleJsonParser(new StringReader(requestBody)));
         parser.setExpectedTopLevelItems(Collections.singletonList(pd));
         try {

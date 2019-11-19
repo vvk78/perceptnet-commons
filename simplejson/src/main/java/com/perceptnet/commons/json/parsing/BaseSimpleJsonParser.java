@@ -8,6 +8,8 @@ import com.perceptnet.commons.reflection.ReflectionProvider;
 import com.perceptnet.commons.utils.CastUtils;
 import com.perceptnet.commons.utils.ClassUtils;
 import com.perceptnet.commons.utils.ParseUtils;
+import com.perceptnet.commons.utils.SimpleTypeInfo;
+import com.perceptnet.commons.utils.SimpleTypeInfoImpl;
 import com.perceptnet.commons.utils.StringEscapeUtils;
 
 
@@ -25,7 +27,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
     private static final Object NULL = new Object();
 
     private ReflectionProvider reflectionProvider;
-    private List<? extends ObjectInfo> expectedTopLevelItems;
+    private List<? extends SimpleTypeInfo> expectedTopLevelItems;
     private int nextExpectedTopLevelClassIdx;
     private boolean resetContextOnFinish;
 
@@ -38,11 +40,11 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
         return parsedTopLevelObjects;
     }
 
-    public void setExpectedTopLevelItems(ObjectInfo ... expectedTopLevelItems) {
+    public void setExpectedTopLevelItems(SimpleTypeInfo... expectedTopLevelItems) {
         setExpectedTopLevelItems(Arrays.asList(expectedTopLevelItems));
     }
 
-    public void setExpectedTopLevelItems(List<? extends ObjectInfo> expectedTopLevelItems) {
+    public void setExpectedTopLevelItems(List<? extends SimpleTypeInfo> expectedTopLevelItems) {
         this.expectedTopLevelItems = expectedTopLevelItems;
         this.nextExpectedTopLevelClassIdx = 0;
     }
@@ -107,7 +109,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
         }
 
         if (className == null) {
-            ObjectInfo expectedItem = expectedItem();
+            SimpleTypeInfo expectedItem = expectedItem();
             if (expectedItem == null) {
                 expectedItem = nep().pollNextExpectedCollectionItemInfo();
             }
@@ -119,7 +121,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
             nep().setExpectedCollectionItems(expectedItem.getCollectionItemsInfos());
         } else {
             Class clazz = ClassUtils.classForNameUnsafely(className);
-            ObjectInfo expectedItem = expectedItem();
+            SimpleTypeInfo expectedItem = expectedItem();
             if (expectedItem != null && !expectedItem.getClazz().isAssignableFrom(clazz)) {
                 throw new IllegalStateException("Type mismatch");
             }
@@ -251,7 +253,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
                 incSkipLevel();
             }
         } else {
-            ObjectInfo expectedItem = expectedItem();
+            SimpleTypeInfo expectedItem = expectedItem();
             if (expectedItem == null) {
                 expectedItem = nep().pollNextExpectedCollectionItemInfo();
             }
@@ -291,7 +293,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
             return;
         }
         Collection c = (Collection) getObj();
-        List<? extends ObjectInfo> eci = nep().getExpectedCollectionItems();
+        List<? extends SimpleTypeInfo> eci = nep().getExpectedCollectionItems();
         if (strictExpectedObjects && eci != null && eci.size() != c.size()) {
             throw new RuntimeException("Not all expected objects parsed " + expectedTopLevelItems.size() + " != " + parsedTopLevelObjects.size());
         }
@@ -394,7 +396,7 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
             }
             return;
         } else {
-            ObjectInfo expectedItem = expectedItem();
+            SimpleTypeInfo expectedItem = expectedItem();
             if (expectedItem == null) {
                 expectedItem = nep().pollNextExpectedCollectionItemInfo();
             }
@@ -423,16 +425,16 @@ public class BaseSimpleJsonParser extends BaseBeanProcessor<ParsingNodeParams> {
         return nep == null ? null : nep.getCurField();
     }
 
-    protected ObjectInfo expectedItem() {
+    protected SimpleTypeInfo expectedItem() {
         ParsingNodeParams nep = nep();
         return nep == null ? null : nep.getNextExpectedItem();
     }
 
     protected void setExpectedItemAsSimpleClass(Class clazz) {
-        setExpectedItem(new ObjectInfoImpl(clazz));
+        setExpectedItem(new SimpleTypeInfoImpl(clazz));
     }
 
-    protected void setExpectedItem(ObjectInfo clazz) {
+    protected void setExpectedItem(SimpleTypeInfo clazz) {
         ParsingNodeParams nep = nep();
         if (nep != null) {
             nep.setNextExpectedItem(clazz);

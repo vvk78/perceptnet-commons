@@ -1,15 +1,12 @@
 package com.perceptnet.commons.json;
 
 import com.perceptnet.commons.json.formatting.SimpleJsonFormatter;
-import com.perceptnet.commons.json.parsing.ObjectInfo;
 import com.perceptnet.commons.reflection.ReflectionProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 01.02.2018

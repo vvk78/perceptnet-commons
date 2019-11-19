@@ -2,8 +2,7 @@ package com.perceptnet.commons.json;
 
 import com.perceptnet.commons.json.dto.TemplateShortDto;
 import com.perceptnet.commons.json.dto.TemplatesGroupDto;
-import com.perceptnet.commons.json.parsing.ObjectInfo;
-import com.perceptnet.commons.json.parsing.ObjectInfoImpl;
+import com.perceptnet.commons.utils.SimpleTypeInfoImpl;
 import com.perceptnet.commons.json.parsing.SimpleJsonParser;
 import com.perceptnet.commons.reflection.BeanReflectionProviderCachingImpl;
 import com.perceptnet.commons.reflection.ReflectionProvider;
@@ -31,15 +30,15 @@ public class SimpleJsonParserTest {
         String testJson = ResourceUtils.resourceText("TestJsonA1.json");
         SimpleJsonParser p = new SimpleJsonParser(new StringReader(testJson));
         p.setReflectionProvider(rp);
-        List<ObjectInfoImpl> argTypesList = Arrays.asList(
-                new ObjectInfoImpl(String.class),
-                new ObjectInfoImpl(Date.class),
-                new ObjectInfoImpl(Long.class),
-                new ObjectInfoImpl(Integer.class),
-                new ObjectInfoImpl(Boolean.class),
-                new ObjectInfoImpl(Double.class),
-                new ObjectInfoImpl(TemplatesGroupDto.class));
-        p.setExpectedTopLevelItems(new ObjectInfoImpl(List.class).setCollectionItemsInfos(argTypesList));
+        List<SimpleTypeInfoImpl> argTypesList = Arrays.asList(
+                new SimpleTypeInfoImpl(String.class),
+                new SimpleTypeInfoImpl(Date.class),
+                new SimpleTypeInfoImpl(Long.class),
+                new SimpleTypeInfoImpl(Integer.class),
+                new SimpleTypeInfoImpl(Boolean.class),
+                new SimpleTypeInfoImpl(Double.class),
+                new SimpleTypeInfoImpl(TemplatesGroupDto.class));
+        p.setExpectedTopLevelItems(new SimpleTypeInfoImpl(List.class).setCollectionItemsInfos(argTypesList));
         p.any();
         List result = p.getParsedTopLevelObjects();
         System.out.println("Parsing result:\n" + result );

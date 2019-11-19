@@ -1,7 +1,7 @@
 package com.perceptnet.commons.restproxy;
 
 
-import com.perceptnet.commons.json.parsing.ObjectInfo;
+import com.perceptnet.commons.utils.SimpleTypeInfo;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -15,14 +15,14 @@ class MethodDescription {
      * Basically this is used only at client side
      */
     private String serviceName;
-    private List<ObjectInfo> params;
-    private ObjectInfo resultInfo;
+    private List<SimpleTypeInfo> params;
+    private SimpleTypeInfo resultInfo;
     private boolean lastNotFlat;
     private boolean allParamsFromBody;
 
 
-    public MethodDescription(Method method, ObjectInfo resultInfo,
-                             List<ObjectInfo> params, boolean lastNotFlat, boolean allParamsFromBody) {
+    public MethodDescription(Method method, SimpleTypeInfo resultInfo,
+                             List<SimpleTypeInfo> params, boolean lastNotFlat, boolean allParamsFromBody) {
         if (method == null) {
             throw new NullPointerException("Method is null");
         }
@@ -37,15 +37,15 @@ class MethodDescription {
         return method;
     }
 
-    public ObjectInfo getResultInfo() {
+    public SimpleTypeInfo getResultInfo() {
         return resultInfo;
     }
 
-    public List<ObjectInfo> getParams() {
+    public List<SimpleTypeInfo> getParams() {
         return params;
     }
 
-    public void setParams(List<ObjectInfo> params) {
+    public void setParams(List<SimpleTypeInfo> params) {
         this.params = params;
     }
 

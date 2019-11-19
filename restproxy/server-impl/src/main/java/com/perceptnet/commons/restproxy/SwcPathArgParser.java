@@ -1,7 +1,7 @@
 package com.perceptnet.commons.restproxy;
 
 
-import com.perceptnet.commons.json.parsing.ObjectInfo;
+import com.perceptnet.commons.utils.SimpleTypeInfo;
 import com.perceptnet.commons.utils.ClassUtils;
 import com.perceptnet.commons.utils.ParseUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -12,7 +12,7 @@ import java.util.Collection;
  * created by vkorovkin (vkorovkin@gmail.com) on 29.01.2018
  */
 class SwcPathArgParser {
-    Object parsePathItem(ObjectInfo pd, String pathItem) throws SwcArgParsingException {
+    Object parsePathItem(SimpleTypeInfo pd, String pathItem) throws SwcArgParsingException {
         if (pathItem == null || pathItem.equals("null")) {
             return null;
         }
@@ -34,8 +34,8 @@ class SwcPathArgParser {
         }
     }
 
-    Collection parseCollectionArg(ObjectInfo pd, String pathItem) throws SwcArgParsingException {
-        ObjectInfo ciInfo = pd.getCollectionItemInfo();
+    Collection parseCollectionArg(SimpleTypeInfo pd, String pathItem) throws SwcArgParsingException {
+        SimpleTypeInfo ciInfo = pd.getCollectionItemInfo();
         if (ciInfo.getClazz() != String.class || !ciInfo.isFlat()) {
             throw new IllegalStateException("Cannot parse " + pd + " as path arg");
         }
