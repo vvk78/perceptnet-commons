@@ -2,6 +2,7 @@ package com.perceptnet.commons.json.parsing;
 
 import com.perceptnet.commons.beanprocessing.NodeExtParams;
 import com.perceptnet.commons.reflection.FieldReflection;
+import com.perceptnet.commons.utils.SimpleTypeInfo;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ public class ParsingNodeParams implements NodeExtParams {
     private FieldReflection curField;
     private String lastStringValue;
     private Object lastValue;
-    private ObjectInfo nextExpectedItem;
+    private SimpleTypeInfo nextExpectedItem;
     /**
      * In case the current node is a collection with mixed item types, this field keeps list of expected item infos. In other case it is null;
      */
-    private List<? extends ObjectInfo> expectedCollectionItems;
+    private List<? extends SimpleTypeInfo> expectedCollectionItems;
     private int nextExpectedCollectionItemIdx;
 
     public FieldReflection getCurField() {
@@ -28,11 +29,11 @@ public class ParsingNodeParams implements NodeExtParams {
     }
 
 
-    public ObjectInfo getNextExpectedItem() {
+    public SimpleTypeInfo getNextExpectedItem() {
         return nextExpectedItem;
     }
 
-    public void setNextExpectedItem(ObjectInfo nextExpectedItem) {
+    public void setNextExpectedItem(SimpleTypeInfo nextExpectedItem) {
         this.nextExpectedItem = nextExpectedItem;
     }
 
@@ -66,19 +67,19 @@ public class ParsingNodeParams implements NodeExtParams {
         return result;
     }
 
-    public void setExpectedCollectionItems(List<? extends ObjectInfo> expectedCollectionItems) {
+    public void setExpectedCollectionItems(List<? extends SimpleTypeInfo> expectedCollectionItems) {
         this.expectedCollectionItems = expectedCollectionItems;
         this.nextExpectedCollectionItemIdx = 0;
     }
 
-    public ObjectInfo pollNextExpectedCollectionItemInfo() {
+    public SimpleTypeInfo pollNextExpectedCollectionItemInfo() {
         if (expectedCollectionItems == null || nextExpectedCollectionItemIdx >= expectedCollectionItems.size()) {
             return null;
         }
         return expectedCollectionItems.get(nextExpectedCollectionItemIdx++);
     }
 
-    public List<? extends ObjectInfo> getExpectedCollectionItems() {
+    public List<? extends SimpleTypeInfo> getExpectedCollectionItems() {
         return expectedCollectionItems;
     }
 }

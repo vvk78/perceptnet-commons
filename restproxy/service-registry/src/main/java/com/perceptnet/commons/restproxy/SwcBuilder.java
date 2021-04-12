@@ -1,9 +1,8 @@
 package com.perceptnet.commons.restproxy;
 
-import com.perceptnet.commons.json.parsing.ObjectInfo;
-import com.perceptnet.commons.json.parsing.ObjectInfoImpl;
+import com.perceptnet.commons.utils.SimpleTypeInfo;
+import com.perceptnet.commons.utils.SimpleTypeInfoImpl;
 import com.perceptnet.commons.utils.ClassUtils;
-import com.perceptnet.commons.utils.MiscUtils;
 import com.perceptnet.commons.utils.ResourceUtils;
 import com.perceptnet.commons.utils.StringUtils;
 
@@ -59,34 +58,33 @@ public class SwcBuilder {
     }
 
     MethodDescription buildMethodDescription(Method method) {
-        List<ObjectInfo> paramDescriptions = buildParamsList(method);
-        ObjectInfo resultInfo = buildObjectInfo(method.getGenericReturnType());
+        List<SimpleTypeInfo> paramDescriptions = buildParamsList(method);
+        SimpleTypeInfo resultInfo = buildObjectInfo(method.getGenericReturnType());
         return new MethodDescription(method, resultInfo,
                 buildParamsList(method), isLastNotFlat(paramDescriptions), isAllArgsFromBody(paramDescriptions));
     }
 
-    List<ObjectInfo> buildParamsList(Method method) {
+    List<SimpleTypeInfo> buildParamsList(Method method) {
         Type[] types = method.getGenericParameterTypes();
         if (types == null || types.length == 0) {
             return Collections.emptyList();
         }
-        List<ObjectInfo> result = new ArrayList<>(types.length);
+        List<SimpleTypeInfo> result = new ArrayList<>(types.length);
         for (Type type : types) {
             result.add(buildObjectInfo(type));
         }
         return result;
     }
 
-    ObjectInfo buildObjectInfo(Type type) {
-        ObjectInfoImpl result = null;
+    SimpleTypeInfo buildObjectInfo(Type type) {
+        SimpleTypeInfoImpl result = null;
         if (type instanceof ParameterizedType) {
             ParameterizedType pt = (ParameterizedType) type;
             Class clazz = (Class) pt.getRawType();
-            result = new ObjectInfoImpl(clazz, pt.getActualTypeArguments());
+            result = new SimpleTypeInfoImpl(clazz, pt.getActualTypeArguments());
             if (result.isCollection()) {
                 result.setCollectionItemInfo(detectCollectionItemType(pt));
                 if (result.getCollectionItemInfo() != null) {
-                    result.getCollectionItemInfo().setFlat(isFlat(result.getCollectionItemInfo().getClazz()));
                     result.setFlat(result.getCollectionItemInfo().isFlat());
                 }
             } else {
@@ -94,10 +92,10 @@ public class SwcBuilder {
             }
         } else if (type instanceof Class) {
             Class clazz = (Class) type;
-            result = new ObjectInfoImpl(clazz);
+            result = new SimpleTypeInfoImpl(clazz);
             result.setFlat(isFlat(clazz));
         } else {
-            return new ObjectInfoImpl(Object.class);
+            return new SimpleTypeInfoImpl(Object.class);
             //throw new IllegalStateException("Unknown type: " + type);
         }
         return result;
@@ -111,7 +109,8 @@ public class SwcBuilder {
                 || Number.class.isAssignableFrom(clazz) || Date.class.isAssignableFrom(clazz);
     }
 
-    ObjectInfo detectCollectionItemType(ParameterizedType parameterizedType) {
+    SimpleTypeInfo detectCollectionItemType(ParameterizedType parameterizedType) {
+        SimpleTypeInfoImpl result;
         Type[] types = parameterizedType.getActualTypeArguments();
         if (types == null || types.length == 0) {
             return null;
@@ -120,30 +119,33 @@ public class SwcBuilder {
         Type t = types[0];
         if (t instanceof ParameterizedType) {
             ParameterizedType pt = (ParameterizedType) t;
-            return new ObjectInfoImpl((Class) pt.getRawType(), pt.getActualTypeArguments());
+            result = new SimpleTypeInfoImpl((Class) pt.getRawType(), pt.getActualTypeArguments());
         } else if (t instanceof Class) {
-            return new ObjectInfoImpl((Class) t);
+            result = new SimpleTypeInfoImpl((Class) t);
         } else {
             return null;
             //throw new IllegalStateException("Unknown type: " + t);
         }
+
+        result.setFlat(isFlat(result.getCollectionItemInfo().getClazz()));
+        return result;
     }
 
-    boolean isAllArgsFromBody(List<ObjectInfo> paramDescriptions) {
+    boolean isAllArgsFromBody(List<SimpleTypeInfo> paramDescriptions) {
         if (paramDescriptions.isEmpty()) {
             return false;
         }
         int notFlatCount = 0;
-        for (ObjectInfo pd : paramDescriptions) {
+        for (SimpleTypeInfo pd : paramDescriptions) {
             if (pd.isFlat()) {
                 notFlatCount++;
             }
         }
-        ObjectInfo lastPd = paramDescriptions.get(paramDescriptions.size() - 1);
+        SimpleTypeInfo lastPd = paramDescriptions.get(paramDescriptions.size() - 1);
         return notFlatCount > 1 || (notFlatCount > 0 && !lastPd.isFlat());
     }
 
-    boolean isLastNotFlat(List<ObjectInfo> paramDescriptions) {
+    boolean isLastNotFlat(List<SimpleTypeInfo> paramDescriptions) {
         return !paramDescriptions.isEmpty() && !paramDescriptions.get(paramDescriptions.size() - 1).isFlat();
     }
 
