@@ -1,7 +1,6 @@
 package com.perceptnet.restclient;
 
 import com.perceptnet.restclient.dto.HttpMethod;
-import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
