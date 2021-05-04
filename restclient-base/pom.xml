@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.3.0</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>restclient-base</artifactId>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>restclient-base-dto</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0-SNAPSHOT</version>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>org.apache.httpcomponents</groupId>-->
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
