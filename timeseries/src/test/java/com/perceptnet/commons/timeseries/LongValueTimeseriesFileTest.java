@@ -238,7 +238,7 @@ public class LongValueTimeseriesFileTest {
         assertEquals(firedReaders.size(), readers.size(), "Not all reading threads have red values");
     }
 
-    @Test(groups = {UNIT})
+    @Test(groups = {UNIT}, enabled = false)
     public void testConcurrentWritesAndReads() throws Exception {
         final LongValueTimeseriesFile f = new LongValueTimeseriesFile(file, "unittest data");
         final AtomicInteger nW = new AtomicInteger(0);
@@ -309,7 +309,16 @@ public class LongValueTimeseriesFileTest {
             t.start();
         }
 
-        Thread.sleep(1000L);
+        outer:
+        for (int i = 0; i < 5; i++) {
+            Thread.sleep(1000L);
+            for (Thread t : allThreads) {
+                if (t.isAlive()) {
+                    continue outer;
+                }
+            }
+            break ;
+        }
 
         System.out.println("Fired writers: " + firedWriters.size());
         System.out.println("Fired readers: " + firedReaders.size());
