@@ -97,6 +97,10 @@ public class FieldReflection {
         annotations.put(annotationClass, annotation);
     }
 
+    public Map<Class<? extends Annotation>, Annotation> getAnnotations() {
+        return annotations;
+    }
+
     public Method getGetter() {
         return getter;
     }
