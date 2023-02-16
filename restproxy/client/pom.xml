@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons.restproxy</groupId>
         <artifactId>restproxy</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
 
     <artifactId>client</artifactId>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons.restproxy</groupId>
             <artifactId>server-api</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
         </dependency>
     </dependencies>
 

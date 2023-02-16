@@ -38,7 +38,7 @@ public class BeanReflectionProviderCachingImpl implements ReflectionProvider {
         if (result == null) {
             BeanReflectionBuilder builder = obtainBuilderForBeanClass(clazz);
             if (builder == null) {
-                log.warn("Bean {} is not supported by given reflection provider");
+                log.warn("Bean {} is not supported by given reflection provider", clazz);
                 return null;
             }
 

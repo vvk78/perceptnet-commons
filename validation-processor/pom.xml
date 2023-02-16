@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
 
     <artifactId>validation-processor</artifactId>
@@ -15,28 +15,28 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>utils</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>reflection</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>beanprocessing</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>validation-abstractions</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
