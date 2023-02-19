@@ -2,7 +2,7 @@ name: Build And Test
 run-name: ${{ github.actor }} wants build and test
 on: [push]
 jobs:
-  Build And Test:
+  Build-And-Test:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
