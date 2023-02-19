@@ -9,7 +9,6 @@ import java.util.List;
  * created by vkorovkin (vkorovkin@gmail.com) on 27.11.2017
  */
 public class RestRequest {
-    simulate compilation error
     private HttpMethod httpMethod;
     private String path;
     private String requestBody;
