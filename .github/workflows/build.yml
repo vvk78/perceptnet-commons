@@ -1,6 +1,11 @@
 name: Build And Test
-run-name: ${{ github.actor }} wants build and test
-on: [push]
+run-name: ${{ github.actor }} wants to build and test
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'master'
 jobs:
   Build-And-Test:
     runs-on: ubuntu-latest
