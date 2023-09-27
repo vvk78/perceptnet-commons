@@ -4,10 +4,10 @@ import com.perceptnet.restclient.dto.HttpMethod;
 import com.perceptnet.restclient.dto.RestMethodDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Proxy;
+import java.util.Base64;
 
 /**
  * created by vkorovkin (vkorovkin@gmail.com) on 29.11.2017
@@ -122,8 +122,8 @@ public class BaseRestServiceProvider {
 
     private String b64(String str) {
         try {
-            BASE64Encoder e = new BASE64Encoder();
-            String result = e.encode(str.getBytes("UTF-8"));
+            Base64.Encoder e = Base64.getEncoder();
+            String result = e.encodeToString(str.getBytes("UTF-8"));
             return result;
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
