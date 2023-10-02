@@ -56,7 +56,7 @@ public class MapUtils {
     public static <T> Map<Integer, List<T>> paginateList(List<T> list, int firstPageItemCount, int... nextPagesItemCount) {
         int lastIndex = 0;
         int pageCounter = 0;
-        Map<Integer, List<T>> res = new HashMap<>();
+        Map<Integer, List<T>> res = new HashMap();
         while (lastIndex < list.size()  || lastIndex == 0) {
             int prevIndex = lastIndex;
             lastIndex = pageCounter == 0 || nextPagesItemCount == null || nextPagesItemCount.length == 0
@@ -71,7 +71,7 @@ public class MapUtils {
         if (map==null){
             return null;
         }
-        Map<V,K> res = new HashMap<>(map.size());
+        Map<V,K> res = new HashMap(map.size());
         for (K key: map.keySet()){
             res.put(map.get(key), key);
         }

@@ -29,11 +29,11 @@ public class BeanReflection {
     private FieldReflection idField;
     private FieldReflection versionField;
 
-    private Map<String, FieldReflection> allFields = new HashMap<>();
+    private Map<String, FieldReflection> allFields = new HashMap();
 
-    private Map<String, FieldReflection> flatFields = new HashMap<>();
-    private Map<String, FieldReflection> collections = new HashMap<>();
-    private Map<String, FieldReflection> references = new HashMap<>();
+    private Map<String, FieldReflection> flatFields = new HashMap();
+    private Map<String, FieldReflection> collections = new HashMap();
+    private Map<String, FieldReflection> references = new HashMap();
 
     public BeanReflection(Class beanClass) {
         if (beanClass == null) {

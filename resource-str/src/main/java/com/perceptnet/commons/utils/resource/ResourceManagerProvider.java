@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author VKorovkin
  */
 public class ResourceManagerProvider {
-    private static final AtomicReference<ResourceManager> instanceRef = new AtomicReference<>(createManager());
+    private static final AtomicReference<ResourceManager> instanceRef = new AtomicReference(createManager());
 
     public static ResourceManager get() {
         return instanceRef.get();

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import static com.perceptnet.commons.utils.ComparableUtils.gt;
 import static com.perceptnet.commons.utils.ComparableUtils.le;
@@ -70,7 +69,7 @@ public class RangeOverlappingValidator {
         this.rangeItemAdaptor = rangeItemAdaptor;
         this.rangeItemComparator =
                 (rangeItemAdaptor == null)
-                        ? new RangeComparator() : new AdaptedRangeComparator<>(rangeItemAdaptor);
+                        ? new RangeComparator() : new AdaptedRangeComparator(rangeItemAdaptor);
     }
 
 
@@ -204,7 +203,7 @@ public class RangeOverlappingValidator {
     }
 
     public static String formatRange(Range range) {
-        if (Objects.equals(range.getLowBound(), range.getHighBound())) {
+        if (range.getLowBound() != null &&  range.getLowBound().equals(range.getHighBound())) {
             return "" + range.getLowBound();
         } else {
             return "" + range;

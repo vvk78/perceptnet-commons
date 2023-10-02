@@ -13,7 +13,7 @@ public class RegexUtils {
         if (strings == null) {
             return null;
         }
-        Collection<Pattern> result = new ArrayList<>(strings.size());
+        Collection<Pattern> result = new ArrayList(strings.size());
         for (String string : strings) {
             Pattern p = Pattern.compile(string);
             result.add(p);
@@ -25,7 +25,7 @@ public class RegexUtils {
         if (strings == null) {
             return null;
         }
-        Collection<Pattern> result = new ArrayList<>(strings.size());
+        Collection<Pattern> result = new ArrayList(strings.size());
         for (String string : strings) {
             Pattern p = simpleWildcardPattern(string);
             if (p != null) {

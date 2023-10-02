@@ -104,7 +104,7 @@ public class RangeUtilsTest {
     }
 
     private static <T extends Number & Comparable> Range<T> nr(T lowBound, T highBound) {
-        return new NumericRange<>(lowBound, highBound);
+        return new NumericRange(lowBound, highBound);
     }
 
     private static ArrayList<Range<Integer>> nrs(Range<Integer> ... ranges) {

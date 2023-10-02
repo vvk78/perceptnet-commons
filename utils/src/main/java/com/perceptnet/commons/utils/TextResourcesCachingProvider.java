@@ -22,7 +22,7 @@ import static com.perceptnet.commons.utils.MiscUtils.putIfAbsent;
  * Created by vkorovkin on 17.07.2017.
  */
 public class TextResourcesCachingProvider {
-    private final ConcurrentHashMap<String, Map<String, String>> resourcesOnNames = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Map<String, String>> resourcesOnNames = new ConcurrentHashMap();
     private Pattern nextItemStart = Pattern.compile("---(.+)");
 
     public TextResourcesCachingProvider() {
@@ -42,10 +42,11 @@ public class TextResourcesCachingProvider {
     }
 
     private <M extends Map<String, String>> M loadTextItemsFromResource(String resourceName, M itemsMap) {
-        try (
-                InputStream is = getClass().getClassLoader().getResourceAsStream(resourceName);
-                BufferedReader r = new BufferedReader(new InputStreamReader(is, "UTF-8"))
-        ) {
+        InputStream is = null;
+        BufferedReader r = null;
+        try {
+            is = getClass().getClassLoader().getResourceAsStream(resourceName);
+            r = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String curLine;
             String fragmentName = null;
             StringBuilder buff = null;
@@ -70,6 +71,9 @@ public class TextResourcesCachingProvider {
             return itemsMap;
         } catch (Exception e) {
             throw new RuntimeException("Cannot load '" + resourceName + "' resource due to: " + e, e);
+        } finally {
+            IoUtils.closeSafely(r);
+            IoUtils.closeSafely(is);
         }
     }
 

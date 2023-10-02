@@ -32,7 +32,7 @@ public class StringUtils {
         if (strs == null) {
             return null;
         }
-        List<String> result = new ArrayList<>(strs.size());
+        List<String> result = new ArrayList(strs.size());
         for (String s : strs) {
             result.add(unquote(s));
         }
@@ -177,7 +177,7 @@ public class StringUtils {
         return (ch >= 'а' && ch <= 'я') || (ch >= 'А' && ch <= 'Я');
     }
 
-    private static final Set<Character> punctuationChars = getSetOfCharacters(".,!?;:-+*/'*()[]{}<>=\"\\");
+    private static final Set<Character> punctuationChars = getSetOfCharacters(".,!?;:-+*/'*()[]{}=\"\\");
 
     /**
      * Returns true if given string contains only cyrillic characters, digits, whitespaces or punctuation characters.
@@ -243,7 +243,7 @@ public class StringUtils {
     }
 
     public static Set<Character> characterSet(String str) {
-        Set<Character> result = new HashSet<>(str.length());
+        Set<Character> result = new HashSet(str.length());
         for (int i = 0; i < str.length(); i++) {
             result.add(str.charAt(i));
         }
@@ -306,7 +306,7 @@ public class StringUtils {
     }
 
     public static Set<Character> getSetOfCharacters(String str) {
-        Set<Character> result = new HashSet<>(str.length());
+        Set<Character> result = new HashSet(str.length());
         for (int i = 0; i < str.length(); i++) {
             result.add(str.charAt(i));
         }

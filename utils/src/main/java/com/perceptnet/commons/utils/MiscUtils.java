@@ -138,7 +138,7 @@ public class MiscUtils {
 
     public static <T> List<T> asList(T[] items) {
         //(Arrays.asList is not working as expected on normal array, it returns List<t[]> instead of List<T>)
-        List<T> result = new ArrayList<>(items.length);
+        List<T> result = new ArrayList(items.length);
         for (T item : items) {
             result.add(item);
         }

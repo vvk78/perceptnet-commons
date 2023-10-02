@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MethodsDescriptionRegistry<MD> {
     private transient ConcurrentHashMap<Method, MD> fastMap;
-    private Map<String, MD> slowMap = new HashMap<>();
+    private Map<String, MD> slowMap = new HashMap();
 
     public MethodsDescriptionRegistry(Map<String, MD> slowMap) {
         this.slowMap = slowMap;

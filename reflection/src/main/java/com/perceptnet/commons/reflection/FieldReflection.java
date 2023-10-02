@@ -51,8 +51,8 @@ public class FieldReflection {
     private Kind fieldKind;
     private boolean finalized;
 
-    private Map<Class<? extends Annotation>, Annotation> annotations = new HashMap<>();
-    private Map extendedAttributes = new ConcurrentHashMap<>(2);
+    private Map<Class<? extends Annotation>, Annotation> annotations = new HashMap();
+    private Map extendedAttributes = new ConcurrentHashMap(2);
 
 
     public static FieldReflection createFromGetter(String fieldName, Method getter) {

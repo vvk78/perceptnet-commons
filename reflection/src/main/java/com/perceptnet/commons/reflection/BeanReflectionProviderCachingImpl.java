@@ -24,8 +24,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class BeanReflectionProviderCachingImpl implements ReflectionProvider {
     private static final Logger log = LoggerFactory.getLogger(BeanReflectionProviderCachingImpl.class);
 
-    private AtomicReference<BeanReflectionBuilderFactory> builderFactory = new AtomicReference<>();
-    private final ConcurrentMap<Class, BeanReflection> cache = new ConcurrentHashMap<>();
+    private AtomicReference<BeanReflectionBuilderFactory> builderFactory = new AtomicReference();
+    private final ConcurrentMap<Class, BeanReflection> cache = new ConcurrentHashMap();
 
 
     /**

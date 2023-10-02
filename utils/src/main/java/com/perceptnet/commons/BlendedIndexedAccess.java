@@ -22,7 +22,7 @@ public class BlendedIndexedAccess<T> implements IndexedAccess<T> {
     }
 
     public BlendedIndexedAccess(Collection<IndexedAccess<T>> items) {
-        this.index = new TreeMap<>();
+        this.index = new TreeMap();
         int curOffset = 0;
         for (IndexedAccess<T> item : items) {
             if (item == null || item.size() == 0) {

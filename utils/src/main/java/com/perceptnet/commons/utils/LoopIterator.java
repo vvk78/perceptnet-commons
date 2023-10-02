@@ -41,4 +41,9 @@ public class LoopIterator<E> implements Iterator<E> {
         }
         return curIterator.next();
     }
+
+    @Override
+    public void remove() {
+        curIterator.remove();
+    }
 }

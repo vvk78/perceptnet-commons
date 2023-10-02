@@ -45,7 +45,7 @@ public class BlendedIndexedAccessTest {
             offset += batchSize;
             result[i] = new ArrayIndexedAccessProxy(batch);
         }
-        return new Pair<>(result, offset);
+        return new Pair(result, offset);
     }
 
     public int intForRange(int lowLimit, int highLimit) {

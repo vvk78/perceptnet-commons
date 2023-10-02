@@ -18,7 +18,7 @@ public class ArrayCircuitTest {
 
     @BeforeMethod(groups = {UNIT, INTEGRATION, DEBUG, FUNCTIONAL, TEMPORARILY_DISABLED})
     public void beforeTestMethod() {
-        circuit = new ArrayCircuit<>(5, 5);
+        circuit = new ArrayCircuit(5, 5);
     }
 
 

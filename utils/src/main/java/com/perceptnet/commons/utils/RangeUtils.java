@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static com.perceptnet.commons.utils.ComparableUtils.ge;
 import static com.perceptnet.commons.utils.ComparableUtils.gt;
@@ -30,7 +29,7 @@ import static com.perceptnet.commons.utils.ComparableUtils.lt;
 public class RangeUtils {
 
     public static List<NumericRange<Integer>> buildRanges(List<Integer> numbers, boolean sortingRequired) {
-        List<NumericRange<Integer>> result = new ArrayList<>();
+        List<NumericRange<Integer>> result = new ArrayList();
         if (sortingRequired) {
             Collections.sort(numbers);
         }
@@ -41,14 +40,14 @@ public class RangeUtils {
             if (curRangeStart == null) {
                 curRangeStart = number;
             } else if (number > prevNumber + 1) {
-                result.add(new NumericRange<>(curRangeStart, prevNumber));
+                result.add(new NumericRange(curRangeStart, prevNumber));
                 curRangeStart = number;
             }
             prevNumber = number;
         }
         
         if (curRangeStart != null) {
-            result.add(new NumericRange<>(curRangeStart, prevNumber));
+            result.add(new NumericRange(curRangeStart, prevNumber));
         }
 
         return result;
@@ -152,7 +151,7 @@ public class RangeUtils {
             if (buff.length() != 0) {
                 buff.append(", ");
             }
-            if (Objects.equals(range.getLowBound(), range.getHighBound())) {
+            if (range.getLowBound() != null && range.getLowBound().equals(range.getHighBound())) {
                 buff.append(range.getLowBound());
             } else {
                 buff.append(range);
@@ -166,10 +165,10 @@ public class RangeUtils {
             return null;
         }
         if (str.isEmpty()) {
-            return new ArrayList<>(0);
+            return new ArrayList(0);
         }
         String[] pieces = str.split(",");
-        ArrayList<Range<Integer>> result = new ArrayList<>(pieces.length);
+        ArrayList<Range<Integer>> result = new ArrayList(pieces.length);
         for (String piece : pieces) {
             result.add(parseIntRange(piece));
         }
@@ -180,11 +179,11 @@ public class RangeUtils {
         str = str.replaceAll("\\s+", "");
         if (!str.contains("-")) {
             Integer value = ParseUtils.parseUnsafely(str, Integer.class);
-            return new NumericRange<>(value, value);
+            return new NumericRange(value, value);
         } else {
             Integer lowBound = ParseUtils.parseUnsafely(StringUtils.getHeadOrNull(str, "-"), Integer.class);
             Integer highBound = ParseUtils.parseUnsafely(StringUtils.getTailOrNull(str, "-"), Integer.class);
-            return new NumericRange<>(lowBound, highBound);
+            return new NumericRange(lowBound, highBound);
         }
     }
 

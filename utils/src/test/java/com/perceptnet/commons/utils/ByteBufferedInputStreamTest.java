@@ -30,7 +30,7 @@ public class ByteBufferedInputStreamTest {
     @BeforeMethod(groups = {UNIT})
     public void beforeTestMethod() throws Exception {
         buff = ByteBuffer.allocate(500);
-        writtenNumbers = new ArrayList<>();
+        writtenNumbers = new ArrayList();
         for (int i = 0; i < 100; i++) {
             //int r = (int) (Math.random() * 100);
             //System.out.print(r + ",");
@@ -60,13 +60,13 @@ public class ByteBufferedInputStreamTest {
         int i = 0;
         for (Number n : writtenNumbers) {
             if (n instanceof Byte) {
-                byte b = (byte) n;
+                byte b = (byte) ((Byte) n);
                 assertEquals(bis.get(), b, "Error at # " + i);
             } else if (n instanceof Short) {
-                short sh = (short) n;
+                short sh = (short) (Short) n;
                 assertEquals(bis.getShort(), sh, "Error at # " + i);
             } else {
-                int j = (int) n;
+                int j = (int) (Integer) n;
                 assertEquals(bis.getInt(), j, "Error at # " + i);
             }
             i++;

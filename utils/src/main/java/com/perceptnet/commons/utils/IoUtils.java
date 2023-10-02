@@ -25,7 +25,7 @@ public class IoUtils {
     public static byte[] readStreamAsBytes(InputStream is, int sizeEst) {
         final int buffSize = sizeEst < 1000 ? 1000 : sizeEst;
         try {
-            List<byte[]> readBuffs = new ArrayList<>(sizeEst <= 0 ? 100 : 3);
+            List<byte[]> readBuffs = new ArrayList(sizeEst <= 0 ? 100 : 3);
             byte[] buff = new byte[buffSize];
             int totalRead = 0;
             while (is.available() > 0) {

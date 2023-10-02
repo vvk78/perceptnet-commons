@@ -10,18 +10,18 @@ import java.util.Map;
  */
 public class OptionUtils {
     public static Map<String, List<String>> parseOptions(String[] args) {
-        Map<String, List<String>> result = new HashMap<>();
+        Map<String, List<String>> result = new HashMap();
         List<String> optionArgs = null;
         for (String arg : args) {
             if (arg.startsWith("-")) {
                 if (result.containsKey(arg)) {
                     throw new IllegalArgumentException("Option " + arg + " is defined more than once");
                 }
-                optionArgs = new ArrayList<>(5);
+                optionArgs = new ArrayList(5);
                 result.put(arg, optionArgs);
             } else {
                 if (optionArgs == null) {
-                    optionArgs = new ArrayList<>(5);
+                    optionArgs = new ArrayList(5);
                     result.put(null, optionArgs);
                 }
                 optionArgs.add(arg);

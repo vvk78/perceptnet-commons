@@ -219,7 +219,7 @@ public class BeanReflectionBuilder {
 
     public BeanReflectionBuilder setSelectedAnnotations(Class<? extends Annotation>... annotations) {
         if (selectedAnnotations == null) {
-            selectedAnnotations = new HashSet<>();
+            selectedAnnotations = new HashSet();
         }
         selectedAnnotations.addAll(Arrays.asList(annotations));
         return this;
@@ -237,7 +237,7 @@ public class BeanReflectionBuilder {
 
     public BeanReflectionBuilder addSpecialFlatTypes(Class ... classes) {
         if (this.specialFlatFieldTypes == null) {
-            this.specialFlatFieldTypes = new HashSet<>(Arrays.asList(classes));
+            this.specialFlatFieldTypes = new HashSet(Arrays.asList(classes));
         } else {
             this.specialFlatFieldTypes.addAll(Arrays.asList(classes));
         }

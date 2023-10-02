@@ -13,10 +13,10 @@ import java.util.Set;
  * created by vkorovkin on 18.06.2018
  */
 public class ImportsHelper {
-    private static final Set<String> PRIMITIVES = new HashSet<>(Arrays.asList(
+    private static final Set<String> PRIMITIVES = new HashSet(Arrays.asList(
             new String[]{"byte", "short", "int", "long", "float", "double", "char", "boolean", "void"}));
 
-    private Map<String, String> imports = new HashMap<>(50);
+    private Map<String, String> imports = new HashMap(50);
 
     private Map<String, String> importsSwapped;
 

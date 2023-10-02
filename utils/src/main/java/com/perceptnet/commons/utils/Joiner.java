@@ -57,7 +57,7 @@ public class Joiner {
     }
 
     public String joinArr(Object ... items) {
-        return join(new ArrayIterable<>(items));
+        return join(new ArrayIterable(items));
     }
 
     private Object adaptItem(Object o) {

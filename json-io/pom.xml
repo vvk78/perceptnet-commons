@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.5.0</version>
+        <version>0.j6.0</version>
     </parent>
 
     <artifactId>json-io</artifactId>
@@ -15,12 +15,12 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>utils</artifactId>
-            <version>1.5.0</version>
+            <version>0.j6.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>commons-api</artifactId>
-            <version>1.5.0</version>
+            <version>0.j6.0</version>
         </dependency>
         <dependency>
             <groupId>com.cedarsoftware</groupId>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.5.0</version>
+            <version>0.j6.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
