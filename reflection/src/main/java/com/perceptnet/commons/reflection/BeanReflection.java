@@ -24,7 +24,7 @@ public class BeanReflection {
     private boolean isFinalized = false;
 
 
-    private final Class beanClass;
+    private final Class<?> beanClass;
 
     private FieldReflection idField;
     private FieldReflection versionField;
@@ -138,7 +138,7 @@ public class BeanReflection {
         this.isFinalized = true;
     }
 
-    public Class getBeanClass() {
+    public Class<?> getBeanClass() {
         return beanClass;
     }
 }

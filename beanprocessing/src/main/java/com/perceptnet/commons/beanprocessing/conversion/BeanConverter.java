@@ -149,7 +149,8 @@ public class BeanConverter<SELF extends BeanConverter> extends BaseConversionPro
                 if (isFieldGenerallyConvertable(destField, srcField)) {
                     //Special case when enum in dest is related to String in src:
                     if (destField.getFieldType().isEnum() && srcField.getFieldType().equals(String.class)) {
-                        destField.setValue(getDest(), EnumUtils.parseUnsafely(destField.getFieldType(), (String) srcField.getValue(getSource())));
+                        Class fieldType = destField.getFieldType();
+                        destField.setValue(getDest(), EnumUtils.parseUnsafely(fieldType, (String) srcField.getValue(getSource())));
 //                    } else if (LookupDto.class.isAssignableFrom(getDestReflection().getBeanClass())
 //                            && destField.getFieldName().equals("code")
 //                            && !String.class.equals(srcField.getFieldType())) {

@@ -39,12 +39,12 @@ public class FieldReflection {
     }
 
     private final String fieldName;
-    private final Class fieldType;
-    private final Class declaringClass;
+    private final Class<?> fieldType;
+    private final Class<?> declaringClass;
     /**
      * Only for collection fields -- collection item type
      */
-    private Class collectionItemClass;
+    private Class<?> collectionItemClass;
     private boolean isCollectionItemClassFlat;
     private Method getter;
     private Method setter;
@@ -52,7 +52,7 @@ public class FieldReflection {
     private boolean finalized;
 
     private Map<Class<? extends Annotation>, Annotation> annotations = new HashMap<>();
-    private Map extendedAttributes = new ConcurrentHashMap<>(2);
+    private Map<?, ?> extendedAttributes = new ConcurrentHashMap<>(2);
 
 
     public static FieldReflection createFromGetter(String fieldName, Method getter) {
@@ -166,7 +166,7 @@ public class FieldReflection {
         setValue(toObj, getValue(fromObj));
     }
 
-    public Class getFieldType() {
+    public Class<?> getFieldType() {
         return fieldType;
     }
 
