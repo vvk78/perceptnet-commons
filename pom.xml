@@ -49,6 +49,7 @@
         <module>tests</module>
         <module>validation-abstractions</module>
         <module>validation-processor</module>
+        <module>id-formatting</module>
     </modules>
 
 
