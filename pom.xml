@@ -4,7 +4,7 @@
 
     <groupId>io.github.vvk78.perceptnet.commons</groupId>
     <artifactId>perceptnet-commons</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0-SNAPSHOT</version>
     <name>Perceptnet commons parent project</name>
 
     <description>Set of common utilities and tools used in perceptnet</description>
