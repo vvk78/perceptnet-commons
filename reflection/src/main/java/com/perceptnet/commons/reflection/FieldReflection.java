@@ -198,6 +198,7 @@ public class FieldReflection {
         return collectionItemClass;
     }
 
+    //TODO fix bug - this field is not always properly defined (depends on order of getters and setters returned for the Class)
     public boolean isCollectionItemClassFlat() {
         return isCollectionItemClassFlat;
     }
