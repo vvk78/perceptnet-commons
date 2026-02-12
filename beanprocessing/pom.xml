@@ -5,32 +5,34 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>beanprocessing</artifactId>
-    <packaging>jar</packaging>        
+    <packaging>jar</packaging>
+
+    <name>Helpers for bean processing used in perceptnet commons</name>
 
     <dependencies>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>utils</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>reflection</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>validation-abstractions</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

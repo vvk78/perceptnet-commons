@@ -5,17 +5,19 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>restclient-conv-onjackson</artifactId>
-    <packaging>jar</packaging>        
+    <packaging>jar</packaging>
+
+    <name>Message converter on fasterxml jackson</name>
 
     <dependencies>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>restclient-base</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -27,7 +29,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

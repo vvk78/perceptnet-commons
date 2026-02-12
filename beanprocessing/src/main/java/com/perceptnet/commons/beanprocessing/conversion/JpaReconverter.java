@@ -43,7 +43,7 @@ public class JpaReconverter<SELF extends JpaReconverter, ID> extends BeanConvert
         }
 
         int index = -1; //(this index variable is used for logging - to indicate what is child item position)
-        Map<ID, Object> destItemsMap = MapUtils.mapById(destItems, new HashMap<>());
+        Map<ID, ?> destItemsMap = MapUtils.mapById(destItems, new HashMap<>());
 
         for (Object srcItem : srcItems) {
             index++; //(this index variable is used for logging)

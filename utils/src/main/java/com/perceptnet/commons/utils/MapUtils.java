@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by VKorovkin on 15.05.2015.
@@ -83,6 +85,15 @@ public class MapUtils {
             map.put(((Identified) item).getId(), item);
         }
         return map;
+    }
+
+    /**
+     * This is a handy method like Map#putIfAbsent but returning actual value associated with the key after method invocation.
+     * (as it basically should have been done in original Map#putIfAbsent method)
+     */
+    public static <K, V> V putIfAbsent(Map<K, V> map, K key, V value) {
+        V prevValue = map.putIfAbsent(key, value);
+        return prevValue == null ? value : prevValue;
     }
 
 }

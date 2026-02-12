@@ -5,11 +5,13 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>restclient-base</artifactId>
     <packaging>jar</packaging>
+
+    <name>Base classes for rest based RPC</name>
 
     <dependencies>
         <!--<dependency>-->
@@ -20,7 +22,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>restclient-base-dto</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>org.apache.httpcomponents</groupId>-->
@@ -29,7 +31,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

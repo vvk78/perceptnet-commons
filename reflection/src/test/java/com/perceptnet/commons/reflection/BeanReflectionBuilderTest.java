@@ -80,6 +80,13 @@ public class BeanReflectionBuilderTest {
         assertFalse(f.isReadOnly(), "authorName field is readOnly");
     }
 
+    @Test(groups = {UNIT})
+    public void testFlatCollection() throws Exception {
+        FieldReflection fr = testBeanReflection.getCollections().get("lines");
+        assertEquals(String.class, fr.getCollectionItemClass(), "Not expected item type for 'lines' collection.");
+        assertTrue(fr.isCollectionItemClassFlat());
+    }
+
     private void assertFieldParams(String name, boolean hasGetter, boolean hasSetter,
                                    Kind fieldKind, Class fieldType,
                                    Class[] hasAnnotations) {
@@ -160,6 +167,7 @@ public class BeanReflectionBuilderTest {
     private static class TestBean {
         private List<CollectionItemA> listItems = new ArrayList<CollectionItemA>();
         private Set<CollectionItemB> items = new HashSet<CollectionItemB>();
+        private List<String> lines = new ArrayList<>();
         private boolean active;
         private Long id;
         private Integer version;
@@ -272,6 +280,13 @@ public class BeanReflectionBuilderTest {
             this.writeOnlyPassword = writeOnlyPassword;
         }
 
+        public void setLines(List<String> lines) {
+            this.lines = lines;
+        }
+
+        public List<String> getLines() {
+            return lines;
+        }
     }
 
     private static class SetGetter {

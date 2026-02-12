@@ -5,17 +5,19 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>commons-api</artifactId>
-    <packaging>jar</packaging>        
+    <packaging>jar</packaging>
+
+    <name>Api of some common services (obsolete, to be deleted)</name>
 
     <dependencies>
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>utils</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
     </dependencies>
        

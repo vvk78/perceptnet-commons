@@ -111,9 +111,13 @@ public class FieldReflection {
     }
 
     private void detectCollectionItemTypeIfNeeded() {
-        if (this.getter != null && Collection.class.isAssignableFrom(fieldType)) {
+        if (Collection.class.isAssignableFrom(fieldType)) {
             try {
-                collectionItemClass = ReflectionUtils.getCollectionItemClassFromGetter(this.getter);
+                if (this.getter != null) {
+                    collectionItemClass = ReflectionUtils.getCollectionItemClassFromGetter(this.getter);
+                } else if (this.setter != null) {
+                    collectionItemClass = ReflectionUtils.getCollectionItemClassFromSetter(this.setter);
+                }
             } catch (RuntimeException e) {
                 throw new RuntimeException("Cannot detect collection type for field " +
                         getDeclaringClass().getSimpleName() + "." + getFieldName() + " due to: " + e, e);

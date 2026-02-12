@@ -5,11 +5,13 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>validation-abstractions</artifactId>
-    <packaging>jar</packaging>        
+    <packaging>jar</packaging>
+
+    <name>Common abstractions for validation</name>
 
     <dependencies>
 <!--

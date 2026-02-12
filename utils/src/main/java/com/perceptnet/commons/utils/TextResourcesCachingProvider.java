@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.perceptnet.commons.utils.MiscUtils.putIfAbsent;
+import static com.perceptnet.commons.utils.MapUtils.putIfAbsent;
 
 
 /**

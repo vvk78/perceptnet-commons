@@ -5,8 +5,10 @@
     <parent>
         <groupId>io.github.vvk78.perceptnet.commons</groupId>
         <artifactId>perceptnet-commons</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
+
+    <name>Rest RPC dynamic proxy</name>
 
     <modules>
         <module>dto</module>
@@ -28,7 +30,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>restclient-base</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>org.apache.httpcomponents</groupId>-->
@@ -37,7 +39,7 @@
         <dependency>
             <groupId>io.github.vvk78.perceptnet.commons</groupId>
             <artifactId>tests</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

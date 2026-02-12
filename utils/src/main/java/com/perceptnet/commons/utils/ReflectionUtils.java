@@ -128,6 +128,25 @@ public class ReflectionUtils {
         return null;
     }
 
+    public static Class getCollectionItemClassFromSetter(Method setter) {
+        Class<?>[] params = setter.getParameterTypes();
+        if (params.length != 1) {
+            throw new IllegalArgumentException("Passed method id not setter");
+        }
+        Class valueClass = params[0];
+        if (isCollection(valueClass)) {
+            Type valueType = setter.getGenericParameterTypes()[0];
+            if (valueType instanceof ParameterizedType) {
+                ParameterizedType paramType = (ParameterizedType) valueType;
+                Type[] argTypes = paramType.getActualTypeArguments();
+                if (argTypes.length > 0) {
+                    return (Class) argTypes[0];
+                }
+            }
+        }
+        return null;
+    }
+
     public static boolean isCollection(Class<?> clazz) {
         return Collection.class.isAssignableFrom(clazz);
     }

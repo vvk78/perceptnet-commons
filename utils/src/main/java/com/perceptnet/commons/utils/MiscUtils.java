@@ -59,15 +59,6 @@ public class MiscUtils {
         }
     }
 
-    /**
-     * This is a convenience method around ConcurrentMap#putIfAbsent but returning actual value after invoking this operation
-     * (as it basically should have been done in the ConcurrentMap#putIfAbsent method iteself)
-     */
-    public static <K, V> V putIfAbsent(ConcurrentHashMap<K, V> map, K key, V value) {
-        V prevValue = map.putIfAbsent(key, value);
-        return prevValue == null ? value : prevValue;
-    }
-
     public static <ID extends Object, O extends Identified<ID>> Map<ID, O> mapById(Collection<O> objects) {
         Map<ID, O> result = new HashMap<ID, O>(objects.size());
         for (O object : objects) {
